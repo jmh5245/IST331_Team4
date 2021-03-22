@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Display Window - 1</title>
+	<link rel="stylesheet" type="text/css" href="window.css">
+	<script src="boxes.js"></script>
+	<script src="jquery-3.5.1.js"></script>
+</head>
+<body onload="Simulation.load()">
+	<button id='playButton' onclick="loadSim()">Start Sim</button>
+	<button id='stopButton' onclick="Simulation.stop()">Stop Sim</button>
+	<input type="text" id="simSpeedInput">
+	<button onclick="Simulation.changeSimSpeed()">Sim Speed</button> 
+	<br>
+
+	<section id="screenContainer">
+		<!-- Canvas created here -->
+	</section>
+	
+	
+	<input type="text" id="angleInput">
+	<button onclick="changeDirection()">Change Direction</button> 
+
+	<input type="text" id="speedInput">
+	<button onclick="changeSpeed()">Change Speed</button> 
+
+	<input type="text" id="altitudeInput">
+	<button onclick="changeAlt()">Change Alt</button> 
+	
+
+	
+</body>
+</html>

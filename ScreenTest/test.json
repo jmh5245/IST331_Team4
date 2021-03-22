@@ -1,0 +1,61 @@
+{
+    "flights" : [
+        {
+        	"ID":"N799298FF",
+        	"color":"red",
+        	
+            "x":"500",
+            "y":"550",
+
+            "altitude":"090",
+            "direction":"0",
+            "speed":".3"
+        },
+        {
+        	"ID":"SA77383DD",
+        	"color":"blue",
+        	
+            "x":"12",
+            "y":"12",
+
+            "altitude":"059",
+            "direction":"135",
+            "speed":".3"
+        },
+        {
+        	"ID":"VA88434QQ",
+        	"color":"green",
+        	
+            "x":"505",
+            "y":"250",
+
+            "altitude":"100",
+            "direction":"270",
+            "speed":".3"
+        },
+        {
+        	"ID":"DA58839XX",
+        	"color":"deeppink",
+        	
+            "x":"100",
+            "y":"500",
+
+            "altitude":"090",
+            "direction":"80",
+            "speed":".3"
+        },
+        {
+        	"ID":"BELZ844ZZ",
+        	"color":"black",
+        	
+            "x":"450",
+            "y":"300",
+
+            "altitude":"55",
+            "direction":"270",
+            "speed":".7"
+        }
+        
+    ]
+}
+
