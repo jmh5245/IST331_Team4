@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src='angular.js'></script>
+</head>
+<body ng-app='KeyboardApp'>
+	<article id='KeyboardContainer' ng-controller='KeyboardControl'>
+      	
+      		<div>
+      			
+      			<div class= 'displayContainer'>
+		      		<input class='displayScreen' type='text' ng-model='input1'></input>
+		      	</div>
+		      	
+		      	<section id='buttonPad'>
+
+
+		      		<!-- NUMBERS -->
+		      		<input 	type='button' 
+		      				ng-click="clearAll()" 
+		      				class='operandButton'
+		      				value='Clear'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('1')"
+		      				class='numberButton'
+		      				value='1'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('2')"
+		      				class='numberButton'
+		      				value='2'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('3')"
+		      				class='numberButton'
+		      				value='3'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('4')" 
+		      				class='numberButton'
+		      				value='4'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('5')"
+		      				class='numberButton'
+		      				value='5'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('6')"
+		      				class='numberButton'
+		      				value='6'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('7')" 
+		      				class='numberButton'
+		      				value='7'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('8')" 
+		      				class='numberButton'
+		      				value='8'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('9')" 
+		      				class='numberButton'
+		      				value='9'>
+		      		</input>
+
+
+		      		<br>
+
+		      		<!-- LETTERS -->
+		      		<input 	type='button' 
+		      				ng-click="clearAll()" 
+		      				class='operandButton'
+		      				value='Clear'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('A')"
+		      				class='numberButton'
+		      				value='A'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('B')"
+		      				class='numberButton'
+		      				value='B'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('C')"
+		      				class='numberButton'
+		      				value='C'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('D')" 
+		      				class='numberButton'
+		      				value='D'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('E')"
+		      				class='numberButton'
+		      				value='E'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('F')"
+		      				class='numberButton'
+		      				value='F'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('G')" 
+		      				class='numberButton'
+		      				value='G'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('H')" 
+		      				class='numberButton'
+		      				value='H'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('I')" 
+		      				class='numberButton'
+		      				value='I'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('0')" 
+		      				class='numberButton priority-grow'value='0'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('.')" 
+		      				class='numberButton'value='.'>
+		      		</input>
+
+
+		      		<br>
+
+		      		<input 	type='button' 
+		      				ng-click="sendCommand()" 
+		      				class=''value='ENTER'>
+		      		</input>
+
+
+		      	</section>
+		      	
+
+	         
+	      	</div> <!-- controller closed -->
+	      	
+
+	  	</article>
+	
+    <script src= 'myControllers.js'></script>
+
+</body>
+</html>
