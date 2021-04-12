@@ -9,7 +9,8 @@
 
             "altitude":"090",
             "direction":"0",
-            "speed":".3"
+            "speed":".3",
+            "active":"true"
         },
         {
         	"ID":"SA77383DD",
@@ -20,7 +21,8 @@
 
             "altitude":"059",
             "direction":"135",
-            "speed":".3"
+            "speed":".3",
+            "active":"true"
         },
         {
         	"ID":"VA88434QQ",
@@ -31,7 +33,8 @@
 
             "altitude":"100",
             "direction":"270",
-            "speed":".3"
+            "speed":".3",
+            "active":"true"
         },
         {
         	"ID":"DA58839XX",
@@ -42,7 +45,8 @@
 
             "altitude":"090",
             "direction":"80",
-            "speed":".3"
+            "speed":".3",
+            "active":"true"
         },
         {
         	"ID":"BELZ844ZZ",
@@ -53,7 +57,8 @@
 
             "altitude":"55",
             "direction":"270",
-            "speed":".7"
+            "speed":".7",
+            "active":"true"
         }
         
     ]

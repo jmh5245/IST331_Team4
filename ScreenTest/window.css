@@ -1,23 +1,151 @@
 
-#screenContainer {
-	width: 60%;
-	/*height: 100%;*/
-	padding:10px 0px;
+:root {
+  --screenHeight: 90vh;
+  --screenWidth:60%;
+}
+
+body{
+	margin:0;
+}
+
+
+#mainContainer{
+	/*display:inline-block;*/
+	/*height:100%;*/
+	width:100%;
 	
 
+	
+}
+
+#leftSide{
+	height:100vh;
+	width: 70vw;
+	display: inline-block;
+	position: relative;
+}
+#rightSide{
+	height:100vh;
+	width:30vw;
+	display: inline-block;
+	float:right;
+}
+#screenContainer {
+	/*height:100%;*/
+	/*display: inline-block;*/
+	position: relative;
+	background-color: red;
+	border-style: solid;
+	border-color: red;
+	border-width: 5p
+	
+}
+#buttonContainer{
+	/*height:100%;
+	width:20%;
+	display: inline-block;
+	float:right;*/
+
+}
+#timeControls{
+	padding:5px 5px;
+
+
+}
+#playButton{
+	background-color: lightgray;
+	color:green;
+	
+}
+#stopButton{
+	background-color: lightgray;
+	color:red;
+	
+}
+
+#stopButton:disabled{
+	
+	color: darkgray;
+}
+
+#playButton:disabled{
+	
+	color: darkgray;
+}
+
+.timeControlButton{
+	width:75px;
+	height:25px;
+
+}
+
+#timer{
+	width:10em;
+	background-color: red;
+	display: inline-block;
+	padding:10px;
+	margin:0;
 }
 canvas{
+	position: absolute;
+	top:0;
+	right:0;
 	width: 100%;
 	height: 100%;
 
+
 	border: 1px solid #d3d3d3;
-    background-color: #FFFF/*#212222;*/
-    /*max-height: 700px;*/
-}
-h1{
-	color:red;
+    background-color: rgba(55,255,255,0); /*///rgba(55,255,255,0.   invisible*/
 }
 
 input{
 	width:5em;
+
+}
+
+#map {
+  min-height: var(--screenHeight);
+
+
+  
+}
+
+#myRange{
+	width:100px;
+}
+
+#speedDisplay{
+	display: inline-block;
+	margin:0;
+}
+#flightListScreen{
+	width:100%;
+	height:50%;
+	background-color: lightgray;
+	padding:10px;
+}
+
+table{
+	width:100%;
+}
+/*ul.stripey > li {
+    border-bottom: 1px solid rgb(221,221,221);
+    padding: 6px;
+}
+ul.stripey > li:nth-of-type(odd) {
+    background-color: #e9e9f9 ;
+}
+ul.stripey > li:last-child {
+    border-bottom: none;
+}*/
+.even {
+	background-color: #e9e9f9;
+}
+
+.flightListRow{
+	width:100%;
+}
+.tableElement{
+	width:100%;
+
 }

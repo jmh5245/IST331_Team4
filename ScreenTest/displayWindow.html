@@ -3,29 +3,251 @@
 <head>
 	<title>Display Window - 1</title>
 	<link rel="stylesheet" type="text/css" href="window.css">
-	<script src="boxes.js"></script>
+	<!-- icon library -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<script src='angular.js'></script>
+	
 	<script src="jquery-3.5.1.js"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
 </head>
-<body onload="Simulation.load()">
-	<button id='playButton' onclick="loadSim()">Start Sim</button>
-	<button id='stopButton' onclick="Simulation.stop()">Stop Sim</button>
-	<input type="text" id="simSpeedInput">
-	<button onclick="Simulation.changeSimSpeed()">Sim Speed</button> 
-	<br>
-
-	<section id="screenContainer">
-		<!-- Canvas created here -->
-	</section>
+<body onload="Simulation.load()" ng-app='SimFast' ng-controller='SimFastController'>
 	
+	<div id="mainContainer">
+
+		<div id="leftSide">
+
+			<div id="timeControls">
+				<button id='playButton' class="timeControlButton fa fa-play" onclick="loadSim()"></button>
+				<button id='stopButton' class="timeControlButton fa fa-stop" onclick="Simulation.stop()"></button>
+
+				<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
+				<p id="speedDisplay">1</p>
+
+				<p id="timer">--:--:--</p>
+				<!-- <input type="text" id="simSpeedInput">
+				<button onclick="Simulation.changeSimSpeed()">Sim Speed</button>  -->
+			</div>
+
+			<section id="screenContainer">
+				<div>
+					<div id="map"></div>
+				</div>
+				<!-- Canvas created here -->
+			</section>
+		</div>
+
+
+
+		
+
+		<div id="rightSide">
+
+
+			<div id="flightListScreen">
+				<table>
+				<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}">
+					<td class="tableElement">{{flight.ID}}</td>
+					
+				</tr>
+				</table>
+			</div>
+			
+		
+			<section id="buttonContainer">
+				<!-- <input type="text" id="angleInput">
+				<button onclick="changeDirection()">Change Direction</button> 
+				<br>
+				<br>
+
+				<input type="text" id="speedInput">
+				<button onclick="changeSpeed()">Change Speed</button> 
+				<br>
+				<br>
+
+				<input type="text" id="altitudeInput">
+				<button onclick="changeAlt()">Change Alt</button>  -->
+
+
+
+				<div>
+      			
+      			<div class= 'displayContainer'>
+		      		<input id="input1" class='displayScreen' type='text' ng-model='input1'></input>
+		      	</div>
+		      	
+		      	<section id='buttonPad'>
+
+
+		      		<!-- NUMBERS -->
+		      		<input 	type='button' 
+		      				ng-click="clearAll()" 
+		      				class='operandButton'
+		      				value='Clear'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('1')"
+		      				class='numberButton'
+		      				value='1'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('2')"
+		      				class='numberButton'
+		      				value='2'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('3')"
+		      				class='numberButton'
+		      				value='3'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('4')" 
+		      				class='numberButton'
+		      				value='4'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('5')"
+		      				class='numberButton'
+		      				value='5'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('6')"
+		      				class='numberButton'
+		      				value='6'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('7')" 
+		      				class='numberButton'
+		      				value='7'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('8')" 
+		      				class='numberButton'
+		      				value='8'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('9')" 
+		      				class='numberButton'
+		      				value='9'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('9')" 
+		      				class='numberButton'
+		      				value='0'>
+		      		</input>
+
+
+		      		<br>
+
+		      		<!-- LETTERS -->
+		      		<input 	type='button' 
+		      				ng-click="clearAll()" 
+		      				class='operandButton'
+		      				value='Clear'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('A')"
+		      				class='numberButton'
+		      				value='A'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('B')"
+		      				class='numberButton'
+		      				value='B'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('C')"
+		      				class='numberButton'
+		      				value='C'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('D')" 
+		      				class='numberButton'
+		      				value='D'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('E')"
+		      				class='numberButton'
+		      				value='E'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('F')"
+		      				class='numberButton'
+		      				value='F'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('G')" 
+		      				class='numberButton'
+		      				value='G'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('H')" 
+		      				class='numberButton'
+		      				value='H'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('I')" 
+		      				class='numberButton'
+		      				value='I'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('0')" 
+		      				class='numberButton priority-grow'value='0'>
+		      		</input>
+
+		      		<input 	type='button' 
+		      				ng-click="pushChar('.')" 
+		      				class='numberButton'value='.'>
+		      		</input>
+
+
+		      		<br>
+
+		      		<input 	type='button' 
+		      				ng-click="sendCommand()" 
+		      				class=''value='ENTER'>
+		      		</input>
+
+
+		      	</section>
+
+		      	
+		      	
+
+	         
+	      	</div>
+			</section>
+		</div>
+	</div>
+
+	<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDr5ClkyJM7sXvUaZH_MBImQnM9vAVggRg&callback=initMap">
+	</script>
+
+
+	<script src="boxes.js"></script>
 	
-	<input type="text" id="angleInput">
-	<button onclick="changeDirection()">Change Direction</button> 
-
-	<input type="text" id="speedInput">
-	<button onclick="changeSpeed()">Change Speed</button> 
-
-	<input type="text" id="altitudeInput">
-	<button onclick="changeAlt()">Change Alt</button> 
 	
 
 	
