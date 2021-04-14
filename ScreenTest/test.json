@@ -5,12 +5,19 @@
         	"color":"red",
         	
             "x":"500",
-            "y":"550",
+            "y":"450",
 
             "altitude":"090",
-            "direction":"0",
+            "direction":"90",
             "speed":".3",
-            "active":"true"
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "10",
+            "spawnTimeMin": "0"
         },
         {
         	"ID":"SA77383DD",
@@ -22,7 +29,14 @@
             "altitude":"059",
             "direction":"135",
             "speed":".3",
-            "active":"true"
+            "active":"false",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "10",
+            "spawnTimeMin": "0"
         },
         {
         	"ID":"VA88434QQ",
@@ -34,7 +48,14 @@
             "altitude":"100",
             "direction":"270",
             "speed":".3",
-            "active":"true"
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "10",
+            "spawnTimeMin": "0"
         },
         {
         	"ID":"DA58839XX",
@@ -46,7 +67,14 @@
             "altitude":"090",
             "direction":"80",
             "speed":".3",
-            "active":"true"
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "10",
+            "spawnTimeMin": "0"
         },
         {
         	"ID":"BELZ844ZZ",
@@ -58,7 +86,14 @@
             "altitude":"55",
             "direction":"270",
             "speed":".7",
-            "active":"true"
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "1",
+            "spawnTimeMin": "0"
         }
         
     ]

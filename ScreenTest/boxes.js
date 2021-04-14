@@ -1,14 +1,15 @@
 
 
 var flightListJSON;
-var flights = ["FUCKOFF"];
+var flights = [];
+var flightsComing = [];
 
 var screenWidth = 1200;   
 var screenHeight = screenWidth*.75;
 
 
 var slider = document.getElementById("myRange");
-console.log(slider);
+// console.log(slider);
 var output = document.getElementById("speedDisplay");
 output.innerHTML = slider.value; // Display the default slider value
 
@@ -58,6 +59,7 @@ var Simulation = {
         $("#stopButton").prop("disabled", false);
 
         this.running = true;
+        flightsComing = flights;
     },
 
     click : function() {
@@ -73,13 +75,20 @@ var Simulation = {
             this.seconds = 0;
         }
 
+
+        var milsec = this.frame;
+        milsec = milsec.toString();
+        while (milsec.length < 2) milsec = "0" + milsec;
+
         var sec = this.seconds.toString();
         while (sec.length < 2) sec = "0" + sec;
 
         var min = this.minutes.toString();
         while (min.length < 2) min = "0" + min;
 
-        timer.innerHTML = min + ":" + sec+":"+this.frame;
+        
+
+        timer.innerHTML = min + ":" + sec + ":" + milsec;
 
 
     	if (this.frame%30 == 0){
@@ -96,19 +105,20 @@ var Simulation = {
     },
     stop : function() {
 
-    	clearInterval(this.interval);
-    	this.clear();
+    	
 
         this.seconds = 0;
         this.minutes = 0;
         this.frame = 0;
-        var sec = this.seconds.toString();
-        while (sec.length < 2) sec = "0" + sec;
+        clearInterval(this.interval);
+        this.clear();
+        // var sec = this.seconds.toString();
+        // while (sec.length < 2) sec = "0" + sec;
 
-        var min = this.minutes.toString();
-        while (min.length < 2) min = "0" + min;
+        // var min = this.minutes.toString();
+        // while (min.length < 2) min = "0" + min;
 
-        timer.innerHTML = min + ":" + sec+":"+this.frame;
+        timer.innerHTML = "--:--:--";
 
     	// console.log("stop clear fired")
     	$('#playButton').prop("disabled", false).removeClass('disabledButton'); // enable play button
@@ -116,6 +126,7 @@ var Simulation = {
         $("#stopButton").prop("disabled", true);
 
         flights = [];
+        flightsComing = [];
         angular.element($('body')).scope().populateList();
         angular.element($('body')).scope().$apply();
     },
@@ -129,27 +140,38 @@ var Simulation = {
 }
 
 
-function Flight(color, x, y, degrees, speed, ID, altitude) {
+function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
 	
     this.width = 2;   // dimensions of lines used to draw V shape
     this.height = 6;   ///
 
-    this.ID = ID;
-    this.x = x;
-    this.y = y; 
+    this.ID = json.ID;
+    // console.log(json.x);
+    this.x = parseFloat(json.x);
+    this.y = parseFloat(json.y); 
+
 
     this.toggler = true;
 
-    this.targetDirection = degrees;         // target values
-    this.targetSpeed = speed;              /// changed by input from user
-    this.targetAltitude = this.altitude;  ///  
+    this.targetDirection = parseFloat(json.direction);         // target values
+    this.targetSpeed = parseFloat(json.speed);              /// changed by input from user
+    this.targetAltitude = parseFloat(json.altitude);  ///  
     
     
-    this.direction = degrees;   // actual values
-    this.speed = speed;        // pushed toward targets by seek___ functions
-    this.altitude = altitude; ///
+    this.direction = parseFloat(json.direction);   // actual values
+    this.speed = parseFloat(json.speed);        // pushed toward targets by seek___ functions
+    this.altitude = parseFloat(json.altitude); ///
+    this.aircraftType = json.aircraftType;
+
+    this.spawnTimeSec = parseInt(json.spawnTimeSec);
+    this.spawnTimeMin = parseInt(json.spawnTimeMin);
+    // console.log(this.spawnTimeMin);
+
+    this.active = false;
 
     this.toggler = true;
+
+    this.trail = [];
 
 
     this.toggleDisp = function(){  // controller for data block toggling
@@ -157,6 +179,15 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
     }
 
     this.move = function(){ /// calculates (x,y) position for next frame
+        
+        if(Simulation.frame%30 ==0){
+            this.trail.push([this.x,this.y]);
+
+        }
+        if (this.trail.length >10){
+            this.trail.shift();
+        }
+
         //WORKING
         ////////////////////////////////////////////////////////////
         // pushing actual values toward target values
@@ -169,44 +200,21 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
     	this.x += this.speed * (Math.sin(bearing)) ;
     	
     	this.y += (this.speed * (Math.cos(bearing)))*-1;
+
+
+        //////// FLIGHT LANDS WHEN REACHES CENTER OF CANVAS (map centered on PHL airport)
+        if (Math.round(this.y) == Simulation.canvas.height/2){
+            // console.log(this.x);
+            if (Math.round(this.x) == Simulation.canvas.width/2 ){
+                console.log("LANDING: " + this.ID);
+                /// remove flight from 'flights' list
+                this.active = false;
+                // flights = flights.filter(obj => obj.ID !== this.ID); //// KILL THE FLIGHT
+                angular.element($('body')).scope().populateList();
+                angular.element($('body')).scope().$apply();
+            }
+        }
         ////////////////////////////////////////////////////////////
-        
-
-
-        ////////////////////////////////////////////////////////////
-        // turns flights to keep them on screen
-        // kindof broken
-
-    	// if (this.x > Simulation.canvas.width * .9){
-    	// 	if (this.x < Simulation.canvas.width/2){
-     //            this.targetDirection = 225;
-     //        } else {
-     //            this.targetDirection = 315;
-     //        }
-    	// }
-    	// if (this.x < Simulation.canvas.width * .1){
-    	// 	if (this.y < Simulation.canvas.height/2){
-     //            this.targetDirection = 135;
-     //        } else {
-     //            this.targetDirection = 45;
-     //        }
-    	// }
-
-    	// if (this.y > Simulation.canvas.height * .9){
-    	// 	if (this.x < Simulation.canvas.width/2){
-     //            this.targetDirection = 45;
-     //        } else {
-     //            this.targetDirection = 315;
-     //        }
-    	// }
-    	// if (this.y < Simulation.canvas.height * .1){
-     //        if (this.x < Simulation.canvas.width/2){
-     //            this.targetDirection = 135;
-     //        } else {
-     //            this.targetDirection = 225;
-     //        }
-    		
-    	// }
     	
     }   
     this.seekDirection = function(){
@@ -236,13 +244,27 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
     }
 
     this.update = function(){ /// draws flight icon and info onto screen
-
         if (true){
             ctx = Simulation.context;
 
-            ctx.fillStyle = color;
+            // ctx.fillStyle = color;
 
             ctx.save(); // saves context placement
+
+            /// TRAIL DOTS///////////////////////// unneccesary
+            var transparency = 1;
+            this.trail.reverse();
+            for (var i =0; i<this.trail.length; i++){
+                // console.log(point);
+                                        //  vv radius
+                ctx.globalAlpha = transparency;
+                ctx.fillStyle = 'white';
+                ctx.fillRect(this.trail[i][0], this.trail[i][1], 2, 2);  // draws rectangle
+                transparency-=.1;
+                
+            }
+            this.trail.reverse();
+            ctx.globalAlpha = 1;
 
 
 
@@ -259,7 +281,7 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
             ctx.rotate( 30 * (Math.PI/180) );    // rotates whole canvas - leads to wonky drawing
             ctx.translate(-(this.x+(this.width/2)), -(this.y)); // returns anchor point
             
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'white';
             ctx.fillRect(this.x, this.y-16, this.width, this.height);  // draws rectangle
             ctx.restore();
 
@@ -270,41 +292,18 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
 
 
             
-            //////////////////////
-            //// drawing flight V icon
-            // 
-            // this is weird and sloppy
-
-      //       var iconAngle = 45; // angle of V icon
-            
-      //       ctx.translate(this.x+(this.width/2), this.y);       // move anchor point
-    		// ctx.rotate( (this.direction+(iconAngle/2)) * (Math.PI/180) );	// rotates whole canvas - leads to wonky drawing
-    		// ctx.translate(-(this.x+(this.width/2)), -(this.y)); // returns anchor point
-    		
-      //       ctx.fillRect(this.x, this.y, this.width, this.height);  // draws rectangle
-
-      //       /// drawing second line of V icon
-    		// ctx.translate(this.x+(this.width/2), this.y);
-    		// ctx.rotate(-(iconAngle) *(Math.PI/180));
-    		// ctx.translate(-(this.x+(this.width/2)), -(this.y));
-
-      //       ctx.fillRect(this.x, this.y, this.width, this.height);
-
-
-      //       ctx.restore(); /// restores context to saved state -- undoes rotation and translate
-
-
+           
             ////////////////////
             ///// drawing flight data
 
-            ctx.font = "12px Arial";
+            ctx.font = "14px Arial";
     		ctx.fillStyle = "Black";
     		ctx.textAlign = "left";
     		let data;
     		if (!this.toggler){
-    			this.data = this.speed.toFixed(2);
+    			this.data = this.speed.toFixed(2) +" " + this.direction;
     		} else {
-    			this.data = this.altitude.toFixed(0);
+    			this.data = this.altitude.toFixed(0) + "  " + this.aircraftType;
     		}
            
             /// drawing bacground block for text
@@ -322,16 +321,19 @@ function Flight(color, x, y, degrees, speed, ID, altitude) {
     		
 
      		ctx.fillText(this.data, this.x + 10 , this.y-18);
+
+
+            
+
         }
-
- 		
-
 
     }
 
     this.spawnFlight = function(){
         this.active = true;
-        flights.shift(0);
+        // flights.shift(0);
+        flightsComing = flightsComing.filter(obj => obj.ID !== this.ID); 
+        angular.element($('body')).scope().populateList();
         angular.element($('body')).scope().$apply();
 
     }
@@ -359,9 +361,29 @@ function updateSimulation() {
     Simulation.clear(); // delete everything
     Simulation.click();// advancing frame count/ toggle animation
 
-    flights.forEach(function(flight) { 
-    	flight.move() // calculate position
-    	flight.update() // draw flight to screen
+    flights.forEach(function(flight) {
+
+
+     
+        if (flight.active){
+
+    	   flight.move() // calculate position
+    	   flight.update() // draw flight to screen
+        }
+        else{
+
+            // if (flight.minutes == Simulation.minutes){
+                // console.log("thisfar");
+                
+                if(flight.spawnTimeSec == Simulation.seconds){
+                    // console.log("thisfar");
+                    
+                    flight.spawnFlight();
+                }
+            
+        }
+
+
     });
 
     drawGuides();
@@ -407,8 +429,54 @@ function changeAlt(){
     });
 }
 
+window.onkeydown = function(e) {
+       var key = e.keyCode ? e.keyCode : e.which;
+       // console.log(e.keyCode);
+       
+       
+       if (key == 39) { // right arrow
+            var v = Number.parseInt(slider.value) + 1;
+
+            // slider.value +=1;
+            if (Simulation.running){
+                Simulation.changeSimSpeed();
+            }
+
+            angular.element($('body')).scope().$apply()
+            output.innerHTML = v;
+            slider.value = v;
+            flights[0].spawnFlight();
+
+       }else if (key == 37) { // left arrow
+           var v = Number.parseInt(slider.value) - 1;
+
+            // slider.value +=1;
+            if (Simulation.running){
+                Simulation.changeSimSpeed();
+            }
+
+            angular.element($('body')).scope().$apply()
+            output.innerHTML = v;
+            slider.value = v;
+
+       }
+
+    else if (key == 32){  //spacebar
+        if (Simulation.running){
+            Simulation.stop();
+        } else{
+            loadSim();
+            
+        }
+
+   }
+}
 
 
+function restartSim(){
+    Simulation.stop();
+    loadSim(); 
+}
 function loadSim(){         
         // loads json file to variable
         // requires App.js to be running to use server 
@@ -434,16 +502,17 @@ function loadSim(){
 
                         var JSONobj = flightListJSON[flight]; 
                         // -- gotta be cleaner ways of doing this
-                        var temp = new Flight(JSONobj.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
+                        var temp = new Flight(JSONobj);//.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
                         
                         flights.push(temp);
+                        flightsComing.push(temp);
                     }
 
                     //hard coded flights
-                    flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
-                    flight02 = new Flight("teal", 120, 120,135, .3,      "SA77383YY", 945);   
-                    flights.push(flight01);
-                    flights.push(flight02);
+                    // flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
+                    // flight02 = new Flight("teal", 120, 120,135, .3,      "SA77383YY", 945);   
+                    // flights.push(flight01);
+                    // flights.push(flight02);
 
                     // flights[0].spawnFlight();
 
@@ -456,8 +525,8 @@ function loadSim(){
                 .fail(function () { // if connection is not made
                     
                     //force hard coded flights in case loading is an issue
-                    flight01 = new Flight("red", 800, 800,23, .3,      "N799298LL", 945); 
-                    flight02 = new Flight("red", 120, 120,135, .3,      "SA77383YY", 945);   
+                    flight01 = new Flight("red", 800, 800,23, .3,      "N799298AA", 945); 
+                    flight02 = new Flight("red", 120, 120,135, .3,      "SA77383BB", 945);   
                     flights.push(flight01);
                     flights.push(flight02);
 
@@ -616,7 +685,7 @@ var app = angular.module("SimFast",[]);
 app.controller("SimFastController", function($scope) {
 
   
-    $scope.flightList = flights;
+    $scope.flightList = flightsComing;
 
     $scope.inputNums = [];
     $scope.inputOps = [];
@@ -625,8 +694,8 @@ app.controller("SimFastController", function($scope) {
     $scope.input1 = '';
 
     $scope.populateList = function(){
-        $scope.flightList = flights;
-        console.log($scope.flightList);
+        $scope.flightList = flightsComing;
+        // console.log($scope.flightList);
         $scope.$apply();
     };
     

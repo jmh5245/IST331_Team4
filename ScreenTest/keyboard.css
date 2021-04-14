@@ -1,0 +1,46 @@
+button{
+	font-size: 10px;
+	text-align: center;
+}
+#spaceBarRow{
+	display:flex;
+	/*flex-grow: 1;*/
+
+}
+#spaceBar{
+	flex-grow: 5;
+}
+.medButton{
+	flex-grow: .5;
+}
+#topRows{
+	display: grid;
+	grid-template-columns: repeat(10, 1fr);
+	/*flex-grow: 1;*/
+}
+#lowerKeyboard{
+	display: grid;
+  	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  	grid-template-rows: repeat(6,1fr);
+  	gap: 3px 1px;
+	/*grid-template-rows: max-content auto;*/
+	
+	flex-grow: 2;
+
+}	
+
+.green{
+	background-color: green;
+	color:white;
+	text-align: center;
+}
+.yellow{
+	background-color: gold;
+	color:black;
+	text-align: center;
+}
+.red{
+	background-color: red;
+	color:black;
+	text-align: center;
+}

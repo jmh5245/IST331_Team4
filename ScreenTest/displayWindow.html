@@ -3,6 +3,8 @@
 <head>
 	<title>Display Window - 1</title>
 	<link rel="stylesheet" type="text/css" href="window.css">
+	<link rel="stylesheet" type="text/css" href="layout.css">
+	<link rel="stylesheet" type="text/css" href="keyboard.css">
 	<!-- icon library -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -21,20 +23,21 @@
 			<div id="timeControls">
 				<button id='playButton' class="timeControlButton fa fa-play" onclick="loadSim()"></button>
 				<button id='stopButton' class="timeControlButton fa fa-stop" onclick="Simulation.stop()"></button>
-
-				<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
-				<p id="speedDisplay">1</p>
-
+				<button id='restartButton' class="timeControlButton fa fa-refresh" onclick="restartSim()"></button>
 				<p id="timer">--:--:--</p>
+				<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
+				<p id="speedDisplay">1</p><span>x</span>
+
+				
 				<!-- <input type="text" id="simSpeedInput">
 				<button onclick="Simulation.changeSimSpeed()">Sim Speed</button>  -->
 			</div>
 
 			<section id="screenContainer">
-				<div>
-					<div id="map"></div>
-				</div>
-				<!-- Canvas created here -->
+			<!-- Canvas created here -->
+				<div id="map"></div>
+				
+				
 			</section>
 		</div>
 
@@ -44,7 +47,7 @@
 
 		<div id="rightSide">
 
-
+			<span class="interfaceLabel">Flights Loaded:</span>
 			<div id="flightListScreen">
 				<table>
 				<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}">
@@ -53,190 +56,311 @@
 				</tr>
 				</table>
 			</div>
+
+			<div id= "flightStripContainer">
+				<div class="flightStripCol"></div>
+				<div class="flightStripCol">
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+				</div>
+
+
+				<div class="flightStripCol"></div>
+				<div class="flightStripCol"></div>
+				<div class="flightStripCol">
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+				</div>
+
+				<div class="flightStripCol">
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+				</div>
+				<div class="flightStripCol">
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+					<div class="flightStripRow"></div>
+				</div>
+
+			</div>
 			
 		
-			<section id="buttonContainer">
-				<!-- <input type="text" id="angleInput">
-				<button onclick="changeDirection()">Change Direction</button> 
-				<br>
-				<br>
-
-				<input type="text" id="speedInput">
-				<button onclick="changeSpeed()">Change Speed</button> 
-				<br>
-				<br>
-
-				<input type="text" id="altitudeInput">
-				<button onclick="changeAlt()">Change Alt</button>  -->
+				
 
 
-
-				<div>
+			
       			
-      			<div class= 'displayContainer'>
-		      		<input id="input1" class='displayScreen' type='text' ng-model='input1'></input>
-		      	</div>
+      			
+		      	<section id="keyboardContainer">
+		      		<div id= 'inputContainer'>
+		      			<input id="input1" class='displayScreen' type='text' ng-model='input1'></input>
+		      		</div>
 		      	
-		      	<section id='buttonPad'>
+		      	
+		      		<section id='topRows'>
+<!-- TOP 2 ROWS ABOVE SPACEBAR -->
+			      		<button class='unusedButton green'>
+			      		</button>
+			      		<button class='unusedButton green'>CNTR
+			      		</button>
+			      		<button class='unusedButton green'>MAPS
+			      		</button>
+			      		<button class='unusedButton green'>WX
+			      		</button>
+			      		<button class='unusedButton white'>CORE
+			      		</button>
+			      		<button class='unusedButton white'>SIGN<br>ON
+			      		</button>
+			      		<button class='unusedButton green'>BRITE
+			      		</button>
+			      		<button class='unusedButton green'>LDR
+			      		</button>
+			      		<button class='unusedButton green'>CHAR<br>SIZE
+			      		</button>
+			      		<button class='unusedButton green'>SHIFT
+			      		</button>
 
 
-		      		<!-- NUMBERS -->
-		      		<input 	type='button' 
-		      				ng-click="clearAll()" 
-		      				class='operandButton'
-		      				value='Clear'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('1')"
-		      				class='numberButton'
-		      				value='1'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('2')"
-		      				class='numberButton'
-		      				value='2'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('3')"
-		      				class='numberButton'
-		      				value='3'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('4')" 
-		      				class='numberButton'
-		      				value='4'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('5')"
-		      				class='numberButton'
-		      				value='5'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('6')"
-		      				class='numberButton'
-		      				value='6'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('7')" 
-		      				class='numberButton'
-		      				value='7'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('8')" 
-		      				class='numberButton'
-		      				value='8'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('9')" 
-		      				class='numberButton'
-		      				value='9'>
-		      		</input>
-
-		      		<input 	type='button' 
-		      				ng-click="pushChar('9')" 
-		      				class='numberButton'
-		      				value='0'>
-		      		</input>
+			      		
+	<!-- ROW1 END -->
+	<!-- ROW2 START -->
+						<button class='unusedButton green'>DCB
+			      		</button>
+			      		<button class='unusedButton green'>RING<br>RING
+			      		</button>
+			      		<button class='unusedButton green'>RANGE
+			      		</button>
+			      		<button class='unusedButton green'>
+			      		</button>
+			      		<button class='unusedButton white'>PREF<br>SET
+			      		</button>
+			      		<button class='unusedButton white'>
+			      		</button>
+			      		<button class='unusedButton green'>
+			      		</button>
+			      		<button class='unusedButton green'>
+			      		</button>
+			      		<button class='unusedButton green'>SITE
+			      		</button>
+			      		<button class='unusedButton green'>MODE
+			      		</button>
+			      	</section>	
+			      	<br>
+<!-- ROW2 END -->
+					<section id="spaceBarRow">
+						<button class='yellow medButton' ng-click="clearAll()">Clear
+			      		</button>
+			      		<button class='yellow' ng-click="backSpace()">BACK<br>SPACE
+			      		</button>
+			      		<button id="spaceBar" class='yellow' ng-click="pushChar(' ')">SPACE
+			      		</button>
+			      		<button class='red medButton' ng-click="sendCommand()">ENTER
+			      		</button>
+					</section>
+<!-- LOWER KEYS -->
+					<section id="lowerKeyboard">
+						<button class='unusedButton green'>INIT<br>CNTL
+			      		</button>
+			      		<button class='unusedButton green'>TRK<br>RPOS
+			      		</button>
+			      		<button class='unusedButton green'>TRK<br>SUSP
+			      		</button>
+			      		<button class='unusedButton green'>TERM<br>CNTL
+			      		</button>
+			      		<button class='unusedButton white'>HND<br>OFF
+			      		</button>
+			      		<button class='unusedButton white'>FLT<br>DATA
+			      		</button>
+			      		<button class='unusedButton green'>MULTI<br>FUNC
+			      		</button>
+			      		<button class='unusedButton green'>F8
+			      		</button>
+			      		<button class='unusedButton white'>&#916;
+			      		</button>
+			      		<button class='unusedButton white'>.
+			      		</button>
 
 
-		      		<br>
 
-		      		<!-- LETTERS -->
-		      		<input 	type='button' 
-		      				ng-click="clearAll()" 
-		      				class='operandButton'
-		      				value='Clear'>
-		      		</input>
+			      		<button class='unusedButton green'>F9
+			      		</button>
+			      		<button class='unusedButton green'>F10
+			      		</button>
+			      		<button class='unusedButton green'>CA
+			      		</button>
+			      		<button class='unusedButton green'>F12
+			      		</button>
+			      		<button class='unusedButton white'>F13
+			      		</button>
+			      		<button class='unusedButton white'>F14
+			      		</button>
+			      		<button class='unusedButton green'>TGT<br>GEN
+			      		</button>
+			      		<button class='unusedButton green'>F16
+			      		</button>
+			      		<button class='unusedButton white'>IFR<br>+
+			      		</button>
+			      		<button class='unusedButton white'>VFR<br>/
+			      		</button>
+					
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('A')"
-		      				class='numberButton'
-		      				value='A'>
-		      		</input>
+					
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('B')"
-		      				class='numberButton'
-		      				value='B'>
-		      		</input>
+		      		
+		      			<button class='charButton'
+		      				ng-click="pushChar('A')">A
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('B')">B
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('C')">C
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('D')">D
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('E')">E
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('F')">F
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('G')">G
+			      		</button>
+		      		
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('C')"
-		      				class='numberButton'
-		      				value='C'>
-		      		</input>
+		      		<button ng-click="pushChar('1')"
+		      				class='numberButton'>1
+		      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('D')" 
-		      				class='numberButton'
-		      				value='D'>
-		      		</input>
+		      		<button ng-click="pushChar('2')"
+		      				class='numberButton'>2
+		       	</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('E')"
-		      				class='numberButton'
-		      				value='E'>
-		      		</input>
+		      		<button ng-click="pushChar('3')"
+		      				class='numberButton'>3
+		      
+		      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('F')"
-		      				class='numberButton'
-		      				value='F'>
-		      		</input>
+		      			<button class='charButton'
+		      				ng-click="pushChar('H')">H
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('I')">I
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('J')">J
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('K')">K
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('L')">L
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('M')">M
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('N')">N
+			      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('G')" 
-		      				class='numberButton'
-		      				value='G'>
-		      		</input>
+		      		<button ng-click="pushChar('4')" 
+		      				class='numberButton'>4
+		      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('H')" 
-		      				class='numberButton'
-		      				value='H'>
-		      		</input>
+		      		<button ng-click="pushChar('5')"
+		      				class='numberButton'>5
+		      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('I')" 
-		      				class='numberButton'
-		      				value='I'>
-		      		</input>
+		      		<button ng-click="pushChar('6')"
+		      				class='numberButton'>6
+		      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('0')" 
-		      				class='numberButton priority-grow'value='0'>
-		      		</input>
+		      			<button class='charButton'
+		      				ng-click="pushChar('O')">O
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('P')">P
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('Q')">Q
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('R')">R
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('S')">S
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('T')">T
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('U')">U
+			      		</button>
 
-		      		<input 	type='button' 
-		      				ng-click="pushChar('.')" 
-		      				class='numberButton'value='.'>
-		      		</input>
+		      		<button ng-click="pushChar('7')" 
+		      				class='numberButton'>7
+		      		</button>
+
+		      		<button ng-click="pushChar('8')" 
+		      				class='numberButton'>8
+		      		</button>
+
+		      		<button ng-click="pushChar('9')" 
+		      				class='numberButton'>9
+		      		</button>
+
+		      			<button class='charButton'
+		      				ng-click="pushChar('V')">V
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('W')">W
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('X')">X
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('Y')">Y
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('Z')">Z
+			      		</button>
+			      		<button class='charButton'
+		      				ng-click="pushChar('*')">*
+			      		</button>
+			      		<button class='charButton'
+		      				>MIN
+			      		</button>
+			      		<button class='charButton'
+		      				>
+			      		</button>
+
+		      		<button ng-click="pushChar('0')" 
+		      				class='numberButton'>0
+		      		</button>
+		      		<button class='charButton'
+		      				>
+			      	</button>
 
 
-		      		<br>
+		      		
 
-		      		<input 	type='button' 
-		      				ng-click="sendCommand()" 
-		      				class=''value='ENTER'>
-		      		</input>
-
-
+		      		
+		      		
 		      	</section>
+
+
+		      	
 
 		      	
 		      	
 
 	         
-	      	</div>
+	      	
 			</section>
 		</div>
 	</div>
