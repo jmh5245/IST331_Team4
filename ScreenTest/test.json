@@ -4,16 +4,16 @@
         	"ID":"N799298FF",
         	"color":"red",
         	
-            "x":"500",
-            "y":"450",
+            "x":"950",
+            "y":"375",
 
             "altitude":"090",
-            "direction":"90",
+            "direction":"270",
             "speed":".3",
             "active":"true",
 
-            "departure":"PHL",
-            "destination":"LAX",
+            "departure":"LAX",
+            "destination":"PHL",
             "aircraftType":"BE20",
 
             "spawnTimeSec": "10",
@@ -81,6 +81,24 @@
         	"color":"black",
         	
             "x":"450",
+            "y":"300",
+
+            "altitude":"55",
+            "direction":"270",
+            "speed":".7",
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"BE20",
+
+            "spawnTimeSec": "1",
+            "spawnTimeMin": "0"
+        },{
+            "ID":"BELZ844ZZ",
+            "color":"black",
+            
+            "x":"1200",
             "y":"300",
 
             "altitude":"55",

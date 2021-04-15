@@ -58,7 +58,11 @@
 			</div>
 
 			<div id= "flightStripContainer">
-				<div class="flightStripCol"></div>
+				<div class="flightStripCol">
+					{{selectedFlight.ID}}<br>
+					{{selectedFlight.aircraftType}}
+
+				</div>
 				<div class="flightStripCol">
 					<div class="flightStripRow"></div>
 					<div class="flightStripRow"></div>
@@ -66,7 +70,9 @@
 				</div>
 
 
-				<div class="flightStripCol"></div>
+				<div class="flightStripCol">
+					{{selectedFlight.departure}}
+				</div>
 				<div class="flightStripCol"></div>
 				<div class="flightStripCol">
 					<div class="flightStripRow"></div>
@@ -172,7 +178,7 @@
 			      		</button>
 			      		<button class='unusedButton white'>HND<br>OFF
 			      		</button>
-			      		<button class='unusedButton white'>FLT<br>DATA
+			      		<button class='unusedButton white' ng-click="selectFlight()">FLT<br>DATA
 			      		</button>
 			      		<button class='unusedButton green'>MULTI<br>FUNC
 			      		</button>

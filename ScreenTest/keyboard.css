@@ -1,10 +1,10 @@
 button{
 	font-size: 10px;
 	text-align: center;
+    font-weight: bolder;
 }
 #spaceBarRow{
 	display:flex;
-	/*flex-grow: 1;*/
 
 }
 #spaceBar{
@@ -16,14 +16,12 @@ button{
 #topRows{
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
-	/*flex-grow: 1;*/
 }
 #lowerKeyboard{
 	display: grid;
   	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   	grid-template-rows: repeat(6,1fr);
   	gap: 3px 1px;
-	/*grid-template-rows: max-content auto;*/
 	
 	flex-grow: 2;
 
@@ -44,6 +42,9 @@ button{
 	color:black;
 	text-align: center;
 }
+
+
+
 
 h1 {
   text-align: center;
