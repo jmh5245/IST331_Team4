@@ -4,32 +4,53 @@
   --screenWidth:60%;
   --letterButtonColor:#FFCB87;
   --numberButtonColor:#85E2FF;
-  --BGcolorLEFT:#314D7C;
-  --BGcolorRIGHT:#182844;
+  --BGcolor:#414141;
+  --BGcolorLEFT:#AFAFAF;
+  --BGcolorRIGHT:#767676;
+
+  --BorderColor:gray;
+  
 
 }
 *{
 	margin:0;
 	padding:0;
-	/*box-sizing: border-box;*/
+	box-sizing: border-box;
 }
 html{
-	background-color: white;
+	background-color: var(--BGcolor);
 	/*display:flex;*/
 	/*justify-content: center;*/
 	
 
 }
 body{
-	padding:10px;
+	padding:5px;
 	background-color: var(--BGcolorRIGHT);
 	/*height:780px;*/
 	/*max-width: 1300px;*/
 	/*max-height: 780px;*/
 
 }
+.screenHalf{
+	border-style: outset;
+	border-width: 10px;
+	border-color: var(--BorderColor);
+}
 
+#shadowOverlay{
+	
+    box-shadow:inset -20px -20px 20px rgba(0,0,0,.5),inset 20px 20px 20px rgba(255,255,255,.3);
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index: 9;
 
+    border-radius: 50px;
+
+}
 
 #screenContainer {
 	/*height:100%;*/
@@ -37,7 +58,10 @@ body{
 	position: relative;
 	background-color: yellow;
 	/*flex-grow: 2;*/
-	/*border-radius: 50%;        makes screen circular*/
+	border-radius: 20px;
+	border-radius: 50px;
+	
+	box-shadow:50px 50px green inset;     
 	overflow:hidden;
 	width:950px;
 	height:750px;
@@ -46,8 +70,36 @@ body{
 }
 
 #timeControls{
-	padding:5px 5px;
+	padding:10px 10px;
+	margin: 5px 40px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	justify-items: center;
+	align-items: center;
 
+	border-style: outset;
+	/*border-color: black;*/
+	border-radius: 20px;
+
+
+
+
+}
+#simControlsContainer{
+	margin-right: auto;
+}
+
+#timerContainer{
+	align-content: center;
+	margin:auto;
+	
+
+
+
+}
+#timeSliderContainer{
+	align-content: right;
+	margin-left: auto;
 
 }
 #playButton{
@@ -82,11 +134,11 @@ body{
  src: url('DIGITALDREAMFATNARROW.ttf');
 }
 
-#timer{
+#timerScreen{
 	width:10em;
 	background-color: #131912; 
 	color:#B3FF00;
-	display: inline-block;
+	/*display: inline-block;*/
 	padding:3px;
 	margin:0;
 	text-align: center;
@@ -96,6 +148,16 @@ body{
 	border-style: inset;
 	border-width: 4px;
 	border-color: gray;
+}
+#timer{
+	display: inline-block;
+	text-align: right;
+}
+#timerScreen #frameDisplay {
+	display:inline-block;
+	font-size: .5em;
+	text-align: left;
+
 }
 canvas{
 	position: absolute;

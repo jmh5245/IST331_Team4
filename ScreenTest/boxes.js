@@ -12,6 +12,8 @@ var screenHeight = 750; //    changing sucks
 var flightIconSize = 6; // radius of flight on screen
 var flightDataFontSize = "11.5px Arial";
 
+var CANVAS = document.getElementById("canvas");
+
 
 var slider = document.getElementById("myRange");
 // console.log(slider);
@@ -39,19 +41,24 @@ var Simulation = {
     running:false,
     
 
-    canvas : document.createElement("canvas"),
+    canvas : CANVAS,
 
     seconds:0,
     minutes:0,
+    hours:0,
     timer: document.getElementById("timer"),
+    frameTimer: document.getElementById("frameDisplay"),
     
 
     load : function(){
+
+
 
         
     	this.canvas.width = screenWidth;         /////// Screen resolution set here
         this.canvas.height = screenHeight;      ////////////////////////////////
         this.context = this.canvas.getContext("2d");
+        drawGuides();
 
         $("#screenContainer").append(this.canvas); // placing canvas in html container
         $("#stopButton").prop("disabled",true);
@@ -86,6 +93,10 @@ var Simulation = {
             this.minutes +=1;
             this.seconds = 0;
         }
+        if (this.minutes == 60){
+            this.hours +=1;
+            this.minutes = 0;
+        }
 
 
         var milsec = this.frame;
@@ -98,9 +109,14 @@ var Simulation = {
         var min = this.minutes.toString();
         while (min.length < 2) min = "0" + min;
 
+        var hr = this.hours.toString();
+        while (hr.length < 2) hr = "0" + hr;
+
         
 
-        timer.innerHTML = min + ":" + sec + ":" + milsec;
+        timer.innerHTML = hr +":"+min + ":" + sec + "<span id='frameDisplay'>:"+milsec+"</span>";
+        // this.frameTimer.innerHTML = milsec;
+
 
 
     	if (this.frame%30 == 0){
@@ -124,13 +140,15 @@ var Simulation = {
         this.frame = 0;
         clearInterval(this.interval);
         this.clear();
+        drawGuides();
         // var sec = this.seconds.toString();
         // while (sec.length < 2) sec = "0" + sec;
 
         // var min = this.minutes.toString();
         // while (min.length < 2) min = "0" + min;
 
-        timer.innerHTML = "--:--:--";
+        timer.innerHTML = "--:--:--"+"<span id='frameDisplay'>:--</span>";
+        
 
     	// console.log("stop clear fired")
     	$('#playButton').prop("disabled", false).removeClass('disabledButton'); // enable play button
@@ -365,44 +383,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
 
     }
 
-    this.isClicked = function(mouseX,mouseY, canvas) {
-        ctx = Simulation.context;
-
-            ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-            ctx.fillStyle = "rgba(255, 255, 255, 0)";
-            ctx.fill();
-            ctx.lineWidth = 5;
-
-            ctx.font = "12px Arial";
-            ctx.fillStyle = "Black";
-            ctx.textAlign = "center";
-            ctx.fillText("V", this.x , this.y+5);
-        
-
-
-        // var scale = elementScale(canvas);
-        // console.log(mouseX, mouseY, canvas.height);
-
-        // mouseX *=scale;
-        // mouseY *=scale;
-
-        // var dx = this.x - mouseX;
-        // var dy = this.y - mouseY;
-
-        
-
-        // var dist = Math.abs(Math.sqrt((dx*dx) + (dy*dy)));
-        // console.log(dist);
-
-        // if (dist <= this.radius) { 
-        //     console.log('clickfired');
-        //     return true;
-        //  } else{
-        //     console.log("miss")
-        //     return false;
-        // };
-
-    }
+    
 
 
 
@@ -430,6 +411,18 @@ function drawGuides(){
     ctx.fillText("90", screenWidth - padding -5 , screenHeight/2);
     ctx.fillText("180", screenWidth/2 , screenHeight - padding);
     ctx.fillText("270", padding , screenHeight/2);
+
+    var r = 100;
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(164, 246, 70,.3)";
+
+    for (var i =0; i<4; i++){
+        ctx.beginPath() ;  
+        ctx.arc(screenWidth/2, screenHeight/2, r*i, 0, 2 * Math.PI, false);
+        ctx.stroke();
+
+    }
+    
     }
 
 function updateSimulation() {
@@ -437,7 +430,7 @@ function updateSimulation() {
 	
     Simulation.clear(); // delete everything
     Simulation.click();// advancing frame count/ toggle animation
-
+    drawGuides();
     flights.forEach(function(flight) {
 
 
@@ -463,7 +456,7 @@ function updateSimulation() {
 
     });
 
-    drawGuides();
+    
      
 }
 
@@ -472,10 +465,11 @@ function updateSimulation() {
 
 
 
-Simulation.canvas.addEventListener('mousedown', function(e) {
+document.getElementById("shadowOverlay").addEventListener('mouseup', function(e) {
     var mouse = getMouse(Simulation.canvas,e);
     var x1 = mouse.x;
     var y1 = mouse.y;
+    // console.log(x1,y1)
 
     flights.forEach(function(flight) {
         var x2 = flight.x;

@@ -94,24 +94,6 @@
 
             "spawnTimeSec": "1",
             "spawnTimeMin": "0"
-        },{
-            "ID":"BELZ844ZZ",
-            "color":"black",
-            
-            "x":"1200",
-            "y":"300",
-
-            "altitude":"55",
-            "direction":"270",
-            "speed":".7",
-            "active":"true",
-
-            "departure":"PHL",
-            "destination":"LAX",
-            "aircraftType":"BE20",
-
-            "spawnTimeSec": "1",
-            "spawnTimeMin": "0"
         }
         
     ]

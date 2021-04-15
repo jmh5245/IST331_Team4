@@ -22,6 +22,7 @@
 	flex-grow: 2;
 	padding:5px;
 	height:100%;
+	border-radius: 20px;
 
 	background-color: var(--BGcolorLEFT);
 
@@ -42,6 +43,7 @@
 	background-color: lightgray;
 	padding:10px;
 	/*flex-grow: 3;*/
+	overflow: scroll;
 
 }
 #flightStripContainer{

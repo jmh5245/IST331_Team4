@@ -18,15 +18,26 @@
 	
 	<div id="mainContainer">
 
-		<div id="leftSide">
+		<div id="leftSide" class='screenHalf'>
 
 			<div id="timeControls">
-				<button id='playButton' class="timeControlButton fa fa-play" onclick="loadSim()"></button>
-				<button id='stopButton' class="timeControlButton fa fa-stop" onclick="Simulation.stop()"></button>
-				<button id='restartButton' class="timeControlButton fa fa-refresh" onclick="restartSim()"></button>
-				<p id="timer">--:--:--</p>
-				<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
-				<p id="speedDisplay">1</p><span>x</span>
+				<section id="simControlsContainer">
+					<button id='playButton' class="timeControlButton fa fa-play" onclick="loadSim()"></button>
+					<button id='stopButton' class="timeControlButton fa fa-stop" onclick="Simulation.stop()"></button>
+					<button id='restartButton' class="timeControlButton fa fa-refresh" onclick="restartSim()"></button>
+				</section>
+
+				<section id="timeContainer">
+					<div id="timerScreen">
+						<span id="timer">--:--:--<span id="frameDisplay">:--</span></span>
+						
+					</div>
+				</section>
+
+				<section id="timeSliderContainer">
+					<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
+					<p id="speedDisplay">1</p><span>x</span>
+				</section>
 
 				
 				<!-- <input type="text" id="simSpeedInput">
@@ -34,6 +45,9 @@
 			</div>
 
 			<section id="screenContainer">
+				<div id='shadowOverlay'></div>
+				<canvas id="canvas" width="950" height="750"></canvas>
+
 			<!-- Canvas created here -->
 				<div id="map"></div>
 				
@@ -45,7 +59,7 @@
 
 		
 
-		<div id="rightSide">
+		<div id="rightSide" class='screenHalf'>
 
 			<span class="interfaceLabel">Flights Loaded:</span>
 			<div id="flightListScreen">
