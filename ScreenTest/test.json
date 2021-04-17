@@ -3,28 +3,36 @@
         {
         	"ID":"N799298FF",
         	"color":"red",
+
         	
-            "x":"950",
+            "x":"952",
             "y":"375",
 
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
             "altitude":"090",
-            "direction":"270",
+            "direction":"250",
             "speed":".3",
             "active":"true",
 
-            "departure":"LAX",
+            "departure":"OOD",
             "destination":"PHL",
-            "aircraftType":"BE20",
+            "aircraftType":"MD90",
 
-            "spawnTimeSec": "10",
+            "spawnTimeSec": "5",
             "spawnTimeMin": "0"
         },
         {
         	"ID":"SA77383DD",
         	"color":"blue",
         	
-            "x":"12",
-            "y":"12",
+            "x":"-1",
+            "y":"-1",
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
 
             "altitude":"059",
             "direction":"135",
@@ -32,37 +40,43 @@
             "active":"false",
 
             "departure":"PHL",
-            "destination":"LAX",
+            "destination":"CYN",
             "aircraftType":"BE20",
 
-            "spawnTimeSec": "10",
-            "spawnTimeMin": "0"
+            "spawnTimeSec": "4",
+            "spawnTimeMin": "1"
         },
         {
         	"ID":"VA88434QQ",
         	"color":"green",
         	
-            "x":"505",
-            "y":"250",
+            "x":"300",
+            "y":"752",
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
 
             "altitude":"100",
-            "direction":"270",
+            "direction":"340",
             "speed":".3",
             "active":"true",
 
             "departure":"PHL",
-            "destination":"LAX",
-            "aircraftType":"BE20",
+            "destination":"VCN",
+            "aircraftType":"B738",
 
-            "spawnTimeSec": "10",
+            "spawnTimeSec": "3",
             "spawnTimeMin": "0"
         },
         {
         	"ID":"DA58839XX",
         	"color":"deeppink",
         	
-            "x":"100",
+            "x":"-2",
             "y":"500",
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
 
             "altitude":"090",
             "direction":"80",
@@ -71,17 +85,20 @@
 
             "departure":"PHL",
             "destination":"LAX",
-            "aircraftType":"BE20",
+            "aircraftType":"C25B",
 
-            "spawnTimeSec": "10",
+            "spawnTimeSec": "2",
             "spawnTimeMin": "0"
         },
         {
         	"ID":"BELZ844ZZ",
         	"color":"black",
         	
-            "x":"450",
+            "x":"952",
             "y":"300",
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
 
             "altitude":"55",
             "direction":"270",
@@ -90,7 +107,29 @@
 
             "departure":"PHL",
             "destination":"LAX",
-            "aircraftType":"BE20",
+            "aircraftType":"B350",
+
+            "spawnTimeSec": "1",
+            "spawnTimeMin": "0"
+        },
+        {
+            "ID":"BELZ844PP",
+            "color":"black",
+            
+            "x":"952",
+            "y":"375",
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"55",
+            "direction":"270",
+            "speed":".7",
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"B350",
 
             "spawnTimeSec": "1",
             "spawnTimeMin": "0"

@@ -45,6 +45,8 @@
 			</div>
 
 			<section id="screenContainer">
+				<div id="turningOnAnimation"></div>
+				<div id="mapBlocker"></div>
 				<div id='shadowOverlay'></div>
 				<canvas id="canvas" width="950" height="750"></canvas>
 
@@ -64,8 +66,13 @@
 			<span class="interfaceLabel">Flights Loaded:</span>
 			<div id="flightListScreen">
 				<table>
-				<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}">
+				<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}" ng-click="selectFlightFromList($event)">
+					<td class="tableElement">{{flight.number}}</td>
+					<td class="tableElement">{{flight.letter}}</td>
 					<td class="tableElement">{{flight.ID}}</td>
+					<td class="tableElement">{{flight.aircraftType}}</td>
+					<td class="tableElement">{{flight.departure}}</td>
+					<td class="tableElement">{{flight.destination}}</td>
 					
 				</tr>
 				</table>
@@ -223,7 +230,8 @@
 			      		</button>
 			      		<button class='unusedButton white'>IFR<br>+
 			      		</button>
-			      		<button class='unusedButton white'>VFR<br>/
+			      		<button class='unusedButton white'
+			      				onclick="changeMap()">VFR<br>/
 			      		</button>
 					
 

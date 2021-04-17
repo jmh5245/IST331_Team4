@@ -54,11 +54,14 @@ var Simulation = {
 
 
 
+
+
         
     	this.canvas.width = screenWidth;         /////// Screen resolution set here
         this.canvas.height = screenHeight;      ////////////////////////////////
         this.context = this.canvas.getContext("2d");
         drawGuides();
+        // this.hideMap();
 
         $("#screenContainer").append(this.canvas); // placing canvas in html container
         $("#stopButton").prop("disabled",true);
@@ -69,15 +72,29 @@ var Simulation = {
         // $('#mainContainer').css("max-width",maxHeight*(1.5));
     },
 
+    showMap : function(){
+        $("#map").css("display","block");
+    },
+    hideMap : function(){
+        setTimeout(function(){
+            $("#map").css("display","none");
+        }, 1000)
+    },
+
     start : function() {
+
+        $("#mapBlocker").addClass("turnedOn");
+
     	this.frame = 0;
         var multiplier = $("#myRange").val();
         this.interval = setInterval(updateSimulation, 200/multiplier); // screen refresh time in milliseconds
         $('#playButton').prop("disabled", true);
         $("#stopButton").prop("disabled", false);
 
+
+        // this.showMap();
         this.running = true;
-        flightsComing = flights;
+        // flightsComing = flights;
         ALL_FLIGHTS = flights;
     },
 
@@ -133,7 +150,8 @@ var Simulation = {
     },
     stop : function() {
 
-    	
+
+    	$("#mapBlocker").removeClass("turnedOn");
 
         this.seconds = 0;
         this.minutes = 0;
@@ -141,6 +159,7 @@ var Simulation = {
         clearInterval(this.interval);
         this.clear();
         drawGuides();
+        // this.hideMap();
         // var sec = this.seconds.toString();
         // while (sec.length < 2) sec = "0" + sec;
 
@@ -179,8 +198,12 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     // console.log(json.x);
     this.x = parseFloat(json.x);
     this.y = parseFloat(json.y); 
+    this.letter = json.unknownLetter;
+    this.number = json.unknownNumber;
+    console.log(this.letter);
 
     this.radius = flightIconSize;
+
 
 
     this.toggler = true;
@@ -391,6 +414,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
         this.active = true;
         // flights.shift(0);
         flightsComing = flightsComing.filter(obj => obj.ID !== this.ID); 
+        // flightsComing.reverse();
         angular.element($('body')).scope().populateList();
         angular.element($('body')).scope().$apply();
 
@@ -438,6 +462,7 @@ function updateSimulation() {
         if (flight.active){
 
     	   flight.move() // calculate position
+
     	   flight.update() // draw flight to screen
         }
         else{
@@ -445,7 +470,7 @@ function updateSimulation() {
             // if (flight.minutes == Simulation.minutes){
                 // console.log("thisfar");
                 
-                if(flight.spawnTimeSec == Simulation.seconds){
+                if((flight.spawnTimeSec == Simulation.seconds)&&(flight.spawnTimeMin == Simulation.minutes)){
                     // console.log("thisfar");
                     
                     flight.spawnFlight();
@@ -599,6 +624,7 @@ function loadSim(){
         //      i do not understand.
         // 
             
+            // console.log($("#turningOnAnimation"))
             flights = [];
             var query = "http://localhost:3000/load?";
             
@@ -623,6 +649,30 @@ function loadSim(){
                         flightsComing.push(temp);
                     }
 
+
+                    console.log("pause");
+                    // Sorts Flights Loaded display in order of appearance
+
+                    flightsComing.sort((a, b) => {
+                        
+
+                        if (a.spawnTimeMin < b.spawnTimeMin) {
+                            return -1;
+                        } 
+                        if (a.spawnTimeMin === b.spawnTimeMin){
+                            if (a.spawnTimeSec < b.spawnTimeSec){
+                                return -1;
+                            }
+                            if (a.spawnTimeSec > b.spawnTimeSec){
+                                return 1;
+                            }
+                        }
+                        if (a.spawnTimeMin > b.spawnTimeMin) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                    console.log("pause");
                     //hard coded flights
                     // flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
                     // flight02 = new Flight("teal", 120, 120,135, .3,      "SA77383YY", 945);   
@@ -794,6 +844,10 @@ function initMap() {
   // map.setOptions({disableDefaultUI:true});
 }
 
+function changeMap(){
+    map.setCenter({lat: -34, lng: 151});
+}
+
 var app = angular.module("SimFast",[]);
 
 
@@ -811,6 +865,12 @@ app.controller("SimFastController", function($scope) {
     $scope.selectedFlight = selectedFlight;
 
     $scope.populateList = function(){
+        console.log(flightsComing);
+        // flightsComing.sort((a, b) => (a.spawnTimeMinutes > b.spawnTimeMinutes) ? 1 : (a.spawnTimeMinutes === b.spawnTimeMinutes) ? ((a.spawnTimeSeconds > b.spawnTimeSeconds) ? 1 : -1) : -1 );
+        console.log(flightsComing);
+
+
+
         $scope.flightList = flightsComing;
         // console.log($scope.flightList);
         $scope.$apply();
@@ -854,17 +914,38 @@ app.controller("SimFastController", function($scope) {
 
     $scope.selectFlight = function(){
 
-    var input = $("#input1").val();
-    var targetFlight;
-    flights.forEach(function(flight) {
-        if(input.substr(0,2) == flight.ID.substr(7,9)){
-            $scope.selectedFlight = flight;
-            selectedFlight = flight;
-        }
-        
-    });
+        var input = $("#input1").val();
+        var targetFlight;
+        flights.forEach(function(flight) {
+            if(input.substr(0,2) == flight.ID.substr(7,9)){
+                $scope.selectedFlight = flight;
+                selectedFlight = flight;
+            }
+            
+        });
 
-}
+
+
+
+    }
+    $scope.selectFlightFromList = function($event){
+
+        var input = $event.currentTarget.children[2].innerHTML;
+        // console.log($event.currentTarget.children[2].innerHTML);
+        var targetFlight;
+        // $event.currentTarget.prop("background-color","red");
+        flights.forEach(function(flight) {
+            // console.log(input);
+            // $scope.input1 = input;
+            if(input.substr(7,9) == flight.ID.substr(7,9)){
+                // console.log(input);
+                $scope.selectedFlight = flight;
+                selectedFlight = flight;
+
+            }
+            
+        });
+    }
 
 });
 
