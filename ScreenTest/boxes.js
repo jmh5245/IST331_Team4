@@ -7,7 +7,7 @@ var flightsComing = [];
 
 var screenWidth = 950;   //// shitty -- hard coded in .css .json
                         ///     
-var screenHeight = 750; //    changing sucks
+var screenHeight = 730; //    changing sucks
 
 var flightIconSize = 6; // radius of flight on screen
 var flightDataFontSize = "11.5px Arial";
@@ -494,15 +494,24 @@ document.getElementById("shadowOverlay").addEventListener('mouseup', function(e)
     var mouse = getMouse(Simulation.canvas,e);
     var x1 = mouse.x;
     var y1 = mouse.y;
+    // x1+=10;
     // console.log(x1,y1)
 
     flights.forEach(function(flight) {
         var x2 = flight.x;
         var y2 = flight.y;
-        if (getDistance(x1,y1,x2,y2) < flight.radius*1.5){
-            console.log('hit' + flight.ID);
+        // if (flight.ID == "DA58839XX"){
+        //     console.log(flight.ID, flight.x, flight.y);
+        //     console.log("mouse", x1, y1);
+        //     console.log(getDistance(x1,y1,x2,y2))
+        // }
+        if (getDistance(x1,y1,x2,y2) < flight.radius*2.5){
+            // console.log('hit' + flight.ID);
             selectClickedFlight(flight);
-        }else{console.log('miss')}
+        }else{
+            console.log('miss'
+                );
+        }
     });
     
 });
@@ -514,6 +523,9 @@ function selectClickedFlight(flight){
 
 function getMouse(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
+    rect.width += 10;       ///this got all fucked up
+    rect.height +=10;
+    console.log(rect);
     return {
       x: evt.clientX - rect.left,
       y: evt.clientY - rect.top
@@ -844,17 +856,24 @@ function initMap() {
   // map.setOptions({disableDefaultUI:true});
 }
 
-function changeMap(){
-    map.setCenter({lat: -34, lng: 151});
+function changeMap(x,y){
+    var point = {
+        lat:x,
+        lng:y
+    }
+    map.setCenter({lat: x, lng: y});
+
 }
 
 var app = angular.module("SimFast",[]);
 
 
-app.controller("SimFastController", function($scope) {
+app.controller("SimFastController", function($scope,$timeout) {
 
   
     $scope.flightList = flightsComing;
+
+    $scope.currentMap = "PHL";
 
     $scope.inputNums = [];
     $scope.inputOps = [];
@@ -875,17 +894,111 @@ app.controller("SimFastController", function($scope) {
         // console.log($scope.flightList);
         $scope.$apply();
     };
+
+    $scope.changeMap = function(x,y,name){
+        
+
+        $timeout(function() {
+            if(Simulation.running){
+                // console.log(x);
+                var resp = confirm("this will end your Sim");
+                if (resp) {
+                    Simulation.stop();
+                    console.log('FHEFE');
+                    var point = {
+                        lat:x,
+                        lng:y
+                    }
+                    map.setCenter({lat: x, lng: y});
+                    $scope.currentMap = name;
+                }
+            }
+            else{
+                console.log('FHEFE');
+                var point = {
+                    lat:x,
+                    lng:y
+                }
+                map.setCenter({lat: x, lng: y});
+                $scope.currentMap = name;
+            }
+        });
+        
+        // console.log("firedchangemap");
+    
+    }
     
     
 
     $scope.pushChar = function(item) { 
 
         $scope.input1 = $scope.input1 + item;
-
-        
-        
-
     };
+
+    $scope.parseInput = function(){
+        var input = $("#input1").val();
+        var targetFlight;
+        flights.forEach(function(flight) {
+            if(input.substr(0,2) == flight.ID.substr(7,9)){
+                targetFlight = flight;
+                $scope.selectedFlight = flight;
+            }
+        });
+
+        var strArray = input.slice(2);
+            // console.log(strArray);
+            for (var i = 0; i < strArray.length; i++) {
+                if (strArray.charAt(i) == "V"){
+                    i++;
+                    var cmd = '';
+                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                        // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
+                        cmd+= strArray.charAt(i);
+                        i++;
+                    }
+                    targetFlight.targetSpeed = parseInt(cmd);
+                    console.log("V",cmd);
+                }
+
+                if (strArray.charAt(i) == "A"){
+                    i++;
+                    var cmd = '';
+                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                        // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
+                        cmd+= strArray.charAt(i);
+                        i++;
+                    }
+                    targetFlight.targetAltitude = parseInt(cmd);
+                    console.log("A",cmd);
+                }
+
+                if (strArray.charAt(i) == "H"){
+                    i++;
+                    var cmd = '';
+                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                        // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
+                        cmd+= strArray.charAt(i);
+                        i++;
+                    }
+                    targetFlight.targetDirection = parseInt(cmd);
+                    console.log("H",cmd);
+                }
+                if (strArray.charAt(i) == "V"){
+                    i++;
+                    var cmd = '';
+                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                        // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
+                        cmd+= strArray.charAt(i);
+                        i++;
+                    }
+                    targetFlight.targetSpeed = parseInt(cmd);
+                    console.log("V",cmd);
+                }
+                
+            }
+            $scope.input1 = '';
+
+    }
 
     $scope.sendCommand = function() {
         console.log($scope.input1);
@@ -898,6 +1011,8 @@ app.controller("SimFastController", function($scope) {
         // V = speed
         // H = direction
         changeDirection($scope.input1);
+
+        $scope.clearAll();
         
 
 

@@ -1,0 +1,63 @@
+:root{
+	--letterButtonColor:#FFCB87;
+ 	--numberButtonColor:#85E2FF;
+ 	--BGcolor:#181E1D;
+ 	/*--BGcolorLEFT:#AFAFAF;*/
+ 	/*--BGcolor:#555C68;*/
+ 	--BGcolor2:#767777;
+
+ 	--BorderColor:#414141;
+ 	--BorderColor2:#414141;
+
+}
+
+
+body{
+	background-color: var(--BGcolor);
+	background-image: url("BrushedSteel.png");
+}
+
+.screenHalf{
+	background-color: var(--BGcolor2);
+	border-color: var(--BorderColor2);	
+	background-image: url("BrushedSteel.png");
+}
+
+#timeControls{
+	border-color: var(--BorderColor2);
+	background-color: var(--BGcolor2);
+}
+#playButton{
+	background-color: lightgray;
+	color:green;
+}
+#stopButton{
+	background-color: lightgray;
+	color:red;	
+}
+#stopButton:disabled{
+	
+	color: darkgray;
+}
+
+#playButton:disabled{
+	
+	color: darkgray;
+}
+
+#screenContainer{
+	border-color: white;
+}
+
+input[type=range] {
+  background-color: var(--BGcolor2);
+}
+
+
+
+
+
+
+
+
+
