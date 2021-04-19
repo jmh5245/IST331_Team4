@@ -1,13 +1,15 @@
 
 
 var flightListJSON;
-var ALL_FLIGHTS = []
+var ALL_FLIGHTS = [];
+All_Flight_Sims = [];
+
 var flights = [];
 var flightsComing = [];
 
-var screenWidth = 950;   //// shitty -- hard coded in .css .json
-                        ///     
-var screenHeight = 730; //    changing sucks
+var screenWidth = 900;   //// shitty -- hard coded & MUST MATCH:
+                        ///                     canvas tag displayWindow.html Line 81
+var screenHeight = 720; // changing sucks       --ScreenHeight/Width in window.css Line 12ish
 
 var flightIconSize = 6; // radius of flight on screen
 var flightDataFontSize = "11.5px Arial";
@@ -95,7 +97,7 @@ var Simulation = {
         // this.showMap();
         this.running = true;
         // flightsComing = flights;
-        ALL_FLIGHTS = flights;
+        // ALL_FLIGHTS = flights;
     },
 
     click : function() {
@@ -200,7 +202,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     this.y = parseFloat(json.y); 
     this.letter = json.unknownLetter;
     this.number = json.unknownNumber;
-    console.log(this.letter);
+    // console.log(this.letter);
 
     this.radius = flightIconSize;
 
@@ -500,17 +502,18 @@ document.getElementById("shadowOverlay").addEventListener('mouseup', function(e)
     flights.forEach(function(flight) {
         var x2 = flight.x;
         var y2 = flight.y;
-        // if (flight.ID == "DA58839XX"){
-        //     console.log(flight.ID, flight.x, flight.y);
-        //     console.log("mouse", x1, y1);
-        //     console.log(getDistance(x1,y1,x2,y2))
-        // }
-        if (getDistance(x1,y1,x2,y2) < flight.radius*2.5){
+        if (flight.ID == "DA58839XX"){
+            console.log(flight.ID, flight.x, flight.y);
+            console.log("mouse", x1, y1);
+            console.log(getDistance(x1,y1,x2,y2))
+        }
+        if (getDistance(x1,y1,x2,y2) < flight.radius*2){
             // console.log('hit' + flight.ID);
             selectClickedFlight(flight);
         }else{
-            console.log('miss'
-                );
+            console.log('miss');
+            // selectClickedFlight('');
+
         }
     });
     
@@ -523,8 +526,8 @@ function selectClickedFlight(flight){
 
 function getMouse(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
-    rect.width += 10;       ///this got all fucked up
-    rect.height +=10;
+    // rect.width += 10;       ///this got all fucked up
+    // rect.height +=10;
     console.log(rect);
     return {
       x: evt.clientX - rect.left,
@@ -649,8 +652,10 @@ function loadSim(){
             })
                 
                 .done(function (json) { // if connection is made and json loaded
-                    flightListJSON = json["flights"];
+                    All_Flight_Sims = json;
+                    flightListJSON = json["flights"]; /// default Sim
                     // console.log(flightListJSON);
+                    flights = [];
                     for (flight in flightListJSON){ // loading flight objects from json into array
 
                         var JSONobj = flightListJSON[flight]; 
@@ -832,7 +837,7 @@ function initMap() {
     "elementType": "geometry.fill",
     "stylers": [
       {
-        "color": "#5f5858"
+        "color": "#282B2A"
       },
       {
         "visibility": "on"
@@ -844,7 +849,7 @@ function initMap() {
     "elementType": "geometry.stroke",
     "stylers": [
       {
-        "color": "#37ff00"
+        "color": "#282B2A"
       },
       {
         "visibility": "on"
@@ -855,6 +860,7 @@ function initMap() {
   });
   // map.setOptions({disableDefaultUI:true});
 }
+
 
 function changeMap(x,y){
     var point = {
@@ -894,6 +900,24 @@ app.controller("SimFastController", function($scope,$timeout) {
         // console.log($scope.flightList);
         $scope.$apply();
     };
+
+    $scope.changeSim = function(str){
+        console.log(flightListJSON);
+        flightListJSON = All_Flight_Sims[str];
+        console.log(flightListJSON);
+
+        // console.log(flightListJSON);
+        
+            for (flight in flightListJSON){ // loading flight objects from json into array
+
+                var JSONobj = flightListJSON[flight]; 
+                // -- gotta be cleaner ways of doing this
+                var temp = new Flight(JSONobj);//.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
+                        
+                flights.push(temp);
+                flightsComing.push(temp);
+            }
+    }
 
     $scope.changeMap = function(x,y,name){
         
@@ -947,11 +971,12 @@ app.controller("SimFastController", function($scope,$timeout) {
 
         var strArray = input.slice(2);
             // console.log(strArray);
-            for (var i = 0; i < strArray.length; i++) {
+            for (var i = 0; i <= strArray.length; i++) {
+                console.log("doop");
                 if (strArray.charAt(i) == "V"){
                     i++;
                     var cmd = '';
-                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                    while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
                         // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
                         cmd+= strArray.charAt(i);
                         i++;
@@ -963,7 +988,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                 if (strArray.charAt(i) == "A"){
                     i++;
                     var cmd = '';
-                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                    while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
                         // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
                         cmd+= strArray.charAt(i);
                         i++;
@@ -975,7 +1000,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                 if (strArray.charAt(i) == "H"){
                     i++;
                     var cmd = '';
-                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                    while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
                         // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
                         cmd+= strArray.charAt(i);
                         i++;
@@ -986,7 +1011,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                 if (strArray.charAt(i) == "V"){
                     i++;
                     var cmd = '';
-                    while ((i<strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                    while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
                         // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
                         cmd+= strArray.charAt(i);
                         i++;

@@ -8,9 +8,30 @@
     border-width: 3px;
 
 }
+#keyboardContainer button span{
+    position: relative;
+}
+
 #keyboardContainer button:focus{
     outline: none;
 }
+#keyboardContainer button:active{
+    border-style: inset;
+}
+
+#keyboardContainer button:active span,
+#keyboardContainer button:active:after{
+    top:2px;
+    left:2px;
+}
+#seven:active:after,
+#eight:active:after,
+#nine:active:after{
+    
+    bottom:2px;
+    /*left:2px;*/
+}
+
 #spaceBarRow{
 	display:flex;
 

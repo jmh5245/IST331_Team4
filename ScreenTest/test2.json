@@ -1,0 +1,29 @@
+{
+    "flights" : [
+        {
+        	"ID":"N799298FF",
+        	"color":"red",
+
+        	
+            "x":"952",
+            "y":"375",
+
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"250",
+            "speed":".3",
+            "active":"true",
+
+            "departure":"OOD",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "5",
+            "spawnTimeMin": "0"
+        }
+        
+    ]
+}

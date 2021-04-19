@@ -9,8 +9,8 @@
   --BGcolorRIGHT:#767676;
 
   --BorderColor:gray;
-  --ScreenHeight:730px;
-  --ScreenWidth:950px;
+  --ScreenHeight:720px;
+  --ScreenWidth:900px;
 
   
 
@@ -42,6 +42,7 @@ body{
     width:100%;
     height:100%;
     z-index: 9;
+    cursor:pointer;
 
     border-radius: 50px;
 
@@ -396,6 +397,11 @@ table{
 .r{right:7px;}
 .t{top:7px;}
 .b{bottom:7px;}
+
+.interfaceLabel{
+	padding-left: 30px;
+}
+
 
 
 

@@ -117,7 +117,7 @@
             "color":"black",
             
             "x":"952",
-            "y":"375",
+            "y":"360",
 
             "unknownLetter":"A",
             "unknownNumber":"053",
@@ -135,6 +135,34 @@
             "spawnTimeMin": "0"
         }
         
+    ],
+    "flights2" : [
+        {
+            "ID":"N799298LL",
+            "color":"red",
+
+            
+            "x":"455", 
+            "y":"360",
+
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"20",
+            "speed":".3",
+            "active":"true",
+
+            "departure":"PHL",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "5",
+            "spawnTimeMin": "0"
+        }
+        
     ]
+
 }
 

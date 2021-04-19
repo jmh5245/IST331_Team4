@@ -5,7 +5,8 @@
 .topnav {
   overflow: hidden;
   background-color: #333;
-  padding:10px;
+  padding:3px 10px;
+  padding-left: 50px;
 }
 
 .topnav a {
@@ -16,6 +17,7 @@
   /*padding: 14px 16px;*/
   text-decoration: none;
   font-size: 17px;
+  margin:0 20px;
 }
 
 .active {
@@ -30,6 +32,7 @@
 .dropdown {
   float: left;
   overflow: hidden;
+  border-bottom: solid 1px #4CAF50;
 }
 
 .dropdown .dropbtn {
