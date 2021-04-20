@@ -46,7 +46,7 @@ body{
 }
 
 #screenContainer{
-	border-color: white;
+	border-color: var(--BorderColor2);
 }
 
 input[type=range] {

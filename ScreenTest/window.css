@@ -19,6 +19,7 @@
 	margin:0;
 	padding:0;
 	box-sizing: border-box;
+
 }
 
 body{
@@ -29,13 +30,14 @@ body{
 	/*height:780px;*/
 	/*max-width: 1300px;*/
 	/*max-height: 780px;*/
+	font-family: "Arial";
 
 }
 
 
 #shadowOverlay{
 	
-    box-shadow:inset -20px -20px 20px rgba(0,0,0,.5),inset 20px 20px 20px rgba(255,255,255,.3);
+    box-shadow:inset -10px -10px 20px rgba(0,0,0,.5),inset 10px 10px 20px rgba(255,255,255,.3);
     position:absolute;
     top:0;
     left:0;
@@ -43,8 +45,6 @@ body{
     height:100%;
     z-index: 9;
     cursor:pointer;
-
-    border-radius: 50px;
 
 }
 
@@ -54,9 +54,9 @@ body{
 	position: relative;
 	background-color: black;
 	/*flex-grow: 2;*/
-	border-radius: 20px;
-	border-radius: 50px;
-	border-style: solid;
+	/*border-radius: 20px;*/
+	border-radius: 2px;
+	border-style: inset;
 	/*border-color: black;*/
 	/*border-width: 5px;*/
 	
@@ -76,6 +76,7 @@ body{
 #timeControls{
 	padding:0px 15px;
 	margin: 0px 50px;
+	margin-bottom: 10px;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	justify-items: center;
@@ -83,7 +84,7 @@ body{
 
 	border-style: outset;
 	/*border-color: black;*/
-	border-radius: 20px;
+	border-radius: 2px;
 
 }
 
@@ -100,8 +101,9 @@ body{
 	margin:auto;
 }
 #timeSliderContainer{
+	display:inline-block;
 	align-content: right;
-	margin-left: auto;
+	margin-left: 0;
 
 }
 
@@ -109,7 +111,7 @@ body{
 
 .timeControlButton{
 	width:75px;
-	height:25px;
+	height:35px;
 
 }
 
@@ -184,10 +186,25 @@ canvas{
 table{
 	width:100%;
 	font-family: "Lucida Console", "Courier New", monospace;
-
+	position: relative;
 	/*height:100%;*/
 	/*table-layout: fixed;*/
 }
+tr{
+	cursor:pointer;
+	position: relative;
+}
+
+.highlight{
+	position: relative;
+	background-color: yellow;
+}
+.highlight.even{
+	position: relative;
+	background-color: yellow;
+}
+
+
 
 .even {
 	background-color: #e9e9f9;
@@ -197,8 +214,8 @@ table{
 	width:100%;
 }
 .tableElement{
-	width:100%;
-	padding: 0px 20px;
+	/*width:100%;*/
+	padding: 0px 10px;
 
 }
 
@@ -236,7 +253,7 @@ table{
     height:100%;
     z-index: 8;
 
-    border-radius: 50px;
+    /*border-radius: 50px;*/
 
     /*transition:opacity 2000ms;*/
     animation:fadeOut 1000ms;
@@ -350,8 +367,8 @@ table{
 	position:absolute;
 	border-radius: 50%;
 	background-color: silver;
-	width: 17px;
-	height:17px;
+	width: 13px;
+	height:13px;
 	text-align: center;
 	align-items: center;
 	border-style: solid;
@@ -393,10 +410,10 @@ table{
 	transform: rotate(15deg);
 }
 
-.l{left:7px;}
-.r{right:7px;}
-.t{top:7px;}
-.b{bottom:7px;}
+.l{left:5px;}
+.r{right:5px;}
+.t{top:5px;}
+.b{bottom:5px;}
 
 .interfaceLabel{
 	padding-left: 30px;

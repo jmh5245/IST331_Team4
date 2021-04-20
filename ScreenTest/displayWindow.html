@@ -19,8 +19,9 @@
 <body onload="Simulation.load()" ng-app='SimFast' ng-controller='SimFastController'>
 	<div id="AppContainer">
 		<div class="topnav" id="myTopnav">
-	  		<div class="dropdown">
-	    		<button class="dropbtn">{{currentMap}} 
+			<section>IATA code:</section>
+	  		<!-- <div class="dropdown">
+	    		<button class="dropbtn">{{currentMap}}
 	      		<i class="fa fa-caret-down"></i>
 	    		</button>
 	    		<div class="dropdown-content">
@@ -28,10 +29,20 @@
 	      			<a ng-click="changeMap(33.9416, -118.4085,'LAX')"> LAX</a>
 	      			<a ng-click="changeMap(33.6407, -84.4277,'ATL')">ATL</a>
 	    		</div>
-  			</div> 
-  			<a href="#about">airport running </a>
-  			<div class="dropdown">
-	    		<button class="dropbtn">{{currentSim}}Simulation 
+  			</div>  -->
+
+
+  			<!-- WHY THE FUCK DOES THIS BREAK IT -->
+  			<select id="mapSelection" class="custom-select" onchange="changeMap(this.options[this.selectedIndex].value)" name = "selectMap">
+  				<option value='{"longitude":39.8729,"latitude":-75.2437}'>PHL</option>
+  				<option value='{"longitude":33.9416,"latitude":-118.4085}'>LAX</option>
+  				<option value='{"longitude":33.6407,"latitude":-84.4277}'>ATL</option>
+  				
+  			</select>
+  			<!-- <a href="#about">airport running </a> -->
+  			<section>Simulation:</section>
+  			<!-- <div class="dropdown">
+	    		<button class="dropbtn">Sim1 
 	      		<i class="fa fa-caret-down"></i>
 	    		</button>
 	    		<div class="dropdown-content">
@@ -39,7 +50,14 @@
 	      			<a ng-click="changeSim('flights2')"> Sim2</a>
 	      			<a ng-click="changeSim('flights2')">Sim3</a>
 	    		</div>
-  			</div>
+  			</div> -->
+
+  			<select id="simSelection" class="custom-select" onchange="alert('woop')" name = "selectSim">
+  				<option ng-repeat="(key,value) in Sims_List">{{key}}</option>
+  				
+  			</select>
+
+
   			<!-- <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a> -->
 		</div>
 	<div id="mainContainer">
@@ -65,8 +83,9 @@
 				</section>
 
 				<section id="timeSliderContainer">
+					<div id="speedDisplayContainer"><p id="speedDisplay">1</p><span>x</span></div>
 					<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
-					<div id="speedDisplayContainer"><p id="speedDisplay">1</p><span>x</span><div>
+					
 				</section>
 
 				
@@ -97,12 +116,12 @@
 			<section class="screw l b"></section>
 			<section class="screw r b"></section>
 
-			<span class="interfaceLabel">Flights Loaded:</span>
+			<span class="interfaceLabel">Flights:</span>
 			<div id="flightListScreen">
 
 				<table>
 				<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}" ng-click="selectFlightFromList($event)">
-					<td class="tableElement">{{flight.number}}</td>
+					<td class="tableElement">{{("00"+flight.spawnTimeMin).slice(-2)}}:{{("00"+flight.spawnTimeSec).slice(-2)}}</td>
 					<td class="tableElement">{{flight.letter}}</td>
 					<td class="tableElement">{{flight.ID}}</td>
 					<td class="tableElement">{{flight.aircraftType}}</td>
@@ -114,7 +133,7 @@
 			</div>
 
 			<div id= "flightStripContainer">
-				<div id="firstBox" class="flightStripCol">
+				<div id="firstBox" class="flightStripColBlock">
 					{{selectedFlight.ID}}<br>
 					{{selectedFlight.aircraftType}}
 
@@ -130,7 +149,7 @@
 				<div class="flightStripColBlock">
 					{{selectedFlight.departure}}
 				</div>
-				<div class="flightStripCol">
+				<div id="bigBox" class="flightStripColBlock">
 					{{selectedFlight.departure}}  {{selectedFlight.destination}}
 				</div>
 				<div class="flightStripCol">
@@ -218,7 +237,7 @@
 					<section id="spaceBarRow">
 						<button class='yellow medButton' ng-click="clearAll()"><span>Clear</span>
 			      		</button>
-			      		<button class='yellow' ng-click="backSpace()"><span>BACK<br>SPACE</span>
+			      		<button class='yellow' ng-click="backspace()"><span>BACK<br>SPACE</span>
 			      		</button>
 			      		<button id="spaceBar" class='yellow' ng-click="pushChar(' ')"><span>SPACE</span>
 			      		</button>

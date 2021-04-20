@@ -2,7 +2,7 @@
 
 var flightListJSON;
 var ALL_FLIGHTS = [];
-All_Flight_Sims = [];
+var All_Flight_Sims = [];
 
 var flights = [];
 var flightsComing = [];
@@ -53,12 +53,8 @@ var Simulation = {
     
 
     load : function(){
+        loadPage();
 
-
-
-
-
-        
     	this.canvas.width = screenWidth;         /////// Screen resolution set here
         this.canvas.height = screenHeight;      ////////////////////////////////
         this.context = this.canvas.getContext("2d");
@@ -238,7 +234,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
 
     this.move = function(){ /// calculates (x,y) position for next frame
         
-        if(Simulation.frame%30 ==0){
+        if(Simulation.frame%10 ==0){
             this.trail.push([this.x,this.y]);
 
         }
@@ -255,9 +251,9 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
 
     	let bearing = this.direction * (Math.PI/180); // Convert to Radians
 
-    	this.x += this.speed * (Math.sin(bearing)) ;
+    	this.x += (this.speed) * (Math.sin(bearing)) ;
     	
-    	this.y += (this.speed * (Math.cos(bearing)))*-1;
+    	this.y += ((this.speed) * (Math.cos(bearing)))*-1;
 
 
         //////// FLIGHT LANDS WHEN REACHES CENTER OF CANVAS (map centered on PHL airport)
@@ -279,6 +275,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     }   
     this.seekDirection = function(){
         // turns in dumb ways - doesnt account for 360 = 0
+        /////// DECIDE WHICH WAY TO TURN
 
         if (this.direction < this.targetDirection){
             this.direction += 1;
@@ -333,7 +330,12 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
                                     //  vv radius
                                     //
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-            ctx.fillStyle = '#B938DD';
+            ctx.fillStyle = '#5E4380';
+            if (this.selected){
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'yellow';
+                ctx.stroke()
+            }
             ctx.fill();
             
             ctx.lineWidth = 5;
@@ -365,7 +367,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             ctx.restore();
 
             ctx.font = "10px Arial";
-            ctx.fillStyle = "Black";
+            ctx.fillStyle = "white";
             ctx.textAlign = "center";
             ctx.fillText("V", this.x , this.y+5);
 
@@ -379,10 +381,12 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     		ctx.fillStyle = "Black";
     		ctx.textAlign = "left";
     		let data;
+
+            let alt = ("00000" + String(this.altitude.toFixed(0))).slice(-3)
     		if (!this.toggler){
-    			this.data = this.speed.toFixed(2) +" " + this.direction;
+    			this.data = alt +"    " + this.direction + " " + this.letter;
     		} else {
-    			this.data = this.altitude.toFixed(0) + "  " + this.aircraftType;
+    			this.data = this.destination + "  " + this.aircraftType;
     		}
            
             /// drawing bacground block for text
@@ -502,11 +506,11 @@ document.getElementById("shadowOverlay").addEventListener('mouseup', function(e)
     flights.forEach(function(flight) {
         var x2 = flight.x;
         var y2 = flight.y;
-        if (flight.ID == "DA58839XX"){
-            console.log(flight.ID, flight.x, flight.y);
-            console.log("mouse", x1, y1);
-            console.log(getDistance(x1,y1,x2,y2))
-        }
+        // if (flight.ID == "DA58839XX"){
+        //     console.log(flight.ID, flight.x, flight.y);
+        //     console.log("mouse", x1, y1);
+        //     console.log(getDistance(x1,y1,x2,y2))
+        // }
         if (getDistance(x1,y1,x2,y2) < flight.radius*2){
             // console.log('hit' + flight.ID);
             selectClickedFlight(flight);
@@ -520,6 +524,38 @@ document.getElementById("shadowOverlay").addEventListener('mouseup', function(e)
 });
 
 function selectClickedFlight(flight){
+    flights.forEach(function(flightComp) {
+            flightComp.selected=false;
+            // console.log(input);
+            // $scope.input1 = input;
+            if(flightComp.ID == flight.ID){
+                // console.log(input);
+                
+                // selectedFlight.selected = true;
+                // console.log(selectedFlight);
+
+            }
+            
+        });
+    flightsComing.forEach(function(f){
+        console.log(f);
+        f.selected = false;
+        $(".highlight").removeClass("highlight");
+    })
+
+        // for(var i in flightObjList.children().children()){
+        //     console.log(i);
+        //     // flightObjList.childNodes[i].classList.add("FICL");
+        //     try{
+        //         // flightObjList.childNodes[i].style.backgroundColor = "yellow";
+        //         console.log(flightObjList.childNodes[i].classList);
+        //         flightObjList.childNodes[i].classList.remove("highlight");
+        //     } catch{
+
+        //     }
+        //     // row.style.backgroundColor = "yellow";
+        // }
+    flight.selected = true;
     angular.element($('body')).scope().selectedFlight = flight;
     angular.element($('body')).scope().$apply();
 }
@@ -564,7 +600,7 @@ function changeSpeed(){
 	flights.forEach(function(flight) {
     	if(input.substr(0,2) == flight.ID.substr(7,9)){
     		targetFlight = flight;
-    		targetFlight.targetSpeed = parseFloat(input.substr(2,input.length-1));
+    		targetFlight.targetSpeed = (parseFloat(input.substr(2,input.length-1)))/100;
     	}
     });
 }
@@ -627,6 +663,30 @@ window.onkeydown = function(e) {
    }
 }
 
+function loadPage(){
+    var query = "http://localhost:3000/load?";
+
+    $.ajax({  
+                url: query, 
+                crossDomain: true, 
+                dataType: 'json', 
+                type: 'GET'
+
+            })
+                
+                .done(function (json) {
+                    All_Flight_Sims=json;
+                    angular.element($('body')).scope().Sims_List= All_Flight_Sims;
+                    angular.element($('body')).scope().$apply();
+
+                });
+
+
+
+
+
+}
+
 
 function restartSim(){
     Simulation.stop();
@@ -642,6 +702,10 @@ function loadSim(){
             // console.log($("#turningOnAnimation"))
             flights = [];
             var query = "http://localhost:3000/load?";
+
+            // var query = "test.json";////// FOR USE IN AWARDSPACE
+
+            // console.log("damnit" , $("#simSelection option:selected").text())
             
             $.ajax({  
                 url: query, 
@@ -653,7 +717,7 @@ function loadSim(){
                 
                 .done(function (json) { // if connection is made and json loaded
                     All_Flight_Sims = json;
-                    flightListJSON = json["flights"]; /// default Sim
+                    flightListJSON = json[$("#simSelection").val()]; /// default Sim
                     // console.log(flightListJSON);
                     flights = [];
                     for (flight in flightListJSON){ // loading flight objects from json into array
@@ -689,7 +753,7 @@ function loadSim(){
                         }
                         return 0;
                     });
-                    console.log("pause");
+                    // console.log("pause");
                     //hard coded flights
                     // flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
                     // flight02 = new Flight("teal", 120, 120,135, .3,      "SA77383YY", 945);   
@@ -862,12 +926,11 @@ function initMap() {
 }
 
 
-function changeMap(x,y){
-    var point = {
-        lat:x,
-        lng:y
-    }
-    map.setCenter({lat: x, lng: y});
+function changeMap(obj){
+    var coordinates = $.parseJSON(obj);
+    // console.log(T);
+    
+    map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
 
 }
 
@@ -878,6 +941,8 @@ app.controller("SimFastController", function($scope,$timeout) {
 
   
     $scope.flightList = flightsComing;
+    $scope.Sims_List = All_Flight_Sims;
+
 
     $scope.currentMap = "PHL";
 
@@ -958,9 +1023,14 @@ app.controller("SimFastController", function($scope,$timeout) {
 
         $scope.input1 = $scope.input1 + item;
     };
+    $scope.backspace = function(){
+        $scope.input1 = $scope.input1.slice(0,-1);
+    }
 
     $scope.parseInput = function(){
+
         var input = $("#input1").val();
+        $scope.selectFlight(input);
         var targetFlight;
         flights.forEach(function(flight) {
             if(input.substr(0,2) == flight.ID.substr(7,9)){
@@ -981,7 +1051,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                         cmd+= strArray.charAt(i);
                         i++;
                     }
-                    targetFlight.targetSpeed = parseInt(cmd);
+                    targetFlight.targetSpeed = parseInt(cmd)/100;
                     console.log("V",cmd);
                 }
 
@@ -1005,7 +1075,10 @@ app.controller("SimFastController", function($scope,$timeout) {
                         cmd+= strArray.charAt(i);
                         i++;
                     }
-                    targetFlight.targetDirection = parseInt(cmd);
+                    cmd = parseInt(cmd);
+                    cmd = cmd%360;
+
+                    targetFlight.targetDirection = cmd;
                     console.log("H",cmd);
                 }
                 if (strArray.charAt(i) == "V"){
@@ -1057,9 +1130,11 @@ app.controller("SimFastController", function($scope,$timeout) {
         var input = $("#input1").val();
         var targetFlight;
         flights.forEach(function(flight) {
+            flight.selected=false;
             if(input.substr(0,2) == flight.ID.substr(7,9)){
                 $scope.selectedFlight = flight;
                 selectedFlight = flight;
+                selectedFlight.selected = true;
             }
             
         });
@@ -1069,18 +1144,45 @@ app.controller("SimFastController", function($scope,$timeout) {
 
     }
     $scope.selectFlightFromList = function($event){
-
+        // console.log("FIRED HERE");
         var input = $event.currentTarget.children[2].innerHTML;
-        // console.log($event.currentTarget.children[2].innerHTML);
+        // console.log("CLICKED",$event.currentTarget.children[1]);
+        // console.log($event.currentTarget.children[1].innerHTML);
         var targetFlight;
-        // $event.currentTarget.prop("background-color","red");
+        var highlight = $event.currentTarget;
+
+        var flightObjList = highlight.parentNode;
+
+        for(var i=0; i< flightObjList.childNodes.length; i++){
+            console.log(flightObjList.childNodes[i]);
+
+            // flightObjList.childNodes[i].classList.add("FICL");
+            try{
+                // flightObjList.childNodes[i].style.backgroundColor = "yellow";
+                // console.log("CLICKED",flightObjList.childNodes[i].text);
+                flightObjList.childNodes[i].classList.remove("highlight");
+            } catch{
+
+            }
+            // row.style.backgroundColor = "yellow";
+        }
+        console.log(flightObjList);
+
+
+        highlight.classList.add("highlight");
+        highlight.classList.remove("odd");
+        // highlight.style.backgroundColor = "yellow";
+        // highlight.addClass("highlight");
         flights.forEach(function(flight) {
+            flight.selected=false;
             // console.log(input);
             // $scope.input1 = input;
             if(input.substr(7,9) == flight.ID.substr(7,9)){
                 // console.log(input);
                 $scope.selectedFlight = flight;
                 selectedFlight = flight;
+                selectedFlight.selected = true;
+                // console.log(selectedFlight);
 
             }
             

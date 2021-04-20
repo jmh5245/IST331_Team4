@@ -13,6 +13,7 @@ var server = app.listen(3000, function () {
 // const path = require('path');
 const router = express.Router();
 
+// let rawdata = fs.readFileSync(path.resolve("/home/www/simfastteam4.atwebpages.com", "test.json"));
 let rawdata = fs.readFileSync(path.resolve(__dirname, "test.json"));
 let flightListJSON = JSON.parse(rawdata);
 // console.log(flightListJSON);
