@@ -5,12 +5,19 @@
 .topnav {
   overflow: hidden;
   background-color: #333;
-  padding:3px 10px;
+  padding:5px 10px;
+  /*padding-top: 10px;*/
   padding-left: 50px;
+  width:100%;
+  margin:3px auto;
+
+  text-align: center;
+  z-index: 0;
+  position:relative;
 }
 
 .topnav section {
-  float: left;
+  display:inline-block;
   display: inline-block;
   color: #f2f2f2;
   text-align: center;
@@ -21,7 +28,7 @@
 }
 
 .topnav select {
-  float:left;
+  display:inline-block;
 }
 
 .active {
@@ -34,7 +41,7 @@
 }
 
 .dropdown {
-  float: left;
+  display:inline-block;
   overflow: hidden;
   border-bottom: solid 1px #4CAF50;
 }
@@ -82,25 +89,42 @@
   display: block;
 }
 
+#why{
+  position:relative;
+  display: inline-block;
+}
 
+.selectionBlocker{
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  display: inline-block;
+  background-color: rgba(0,50,0,.4);
+  z-index: 5;
+}
 
-
-.custom-select {
+.custom-select{
+  z-index: 6;
 
   position: relative;
   font-family: Arial;
   font-size: 20px;
   width:200px;
   display:inline-block;
-  background-color: rgba(33,33,33,0);
+  background-color: rgba(33,33,33,.3);
   color:white;
   border-style: none;
   border-bottom-style: solid;
+  border-right-style: solid;
   border-bottom-color: #4CAF50;
+  border-right-color: #4CAF50;
   border-bottom-width: 2px; 
   outline:none;
 }
-option{
-    background-color: red;
-
+.custom-select:disabled{
+  z-index: 4;
+  /*color:rgba(100,100,100,.5);*/
 }
+

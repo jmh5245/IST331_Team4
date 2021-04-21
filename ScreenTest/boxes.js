@@ -32,7 +32,7 @@ slider.oninput = function() {
         Simulation.changeSimSpeed();
     }
     
-} 
+}; 
 
 // console.log($(window).width());
 // console.log($(window).height())
@@ -54,6 +54,7 @@ var Simulation = {
 
     load : function(){
         loadPage();
+        setTimeout(function(){$("#mapBlocker").addClass("turnedOn")},610); ///// DO WE WANT MAP VISIBLE WHILE SIM IS STOPPED?
 
     	this.canvas.width = screenWidth;         /////// Screen resolution set here
         this.canvas.height = screenHeight;      ////////////////////////////////
@@ -63,6 +64,10 @@ var Simulation = {
 
         $("#screenContainer").append(this.canvas); // placing canvas in html container
         $("#stopButton").prop("disabled",true);
+        $("#restartButton").prop("disabled",true);
+
+        $("#simSelection").prop("disabled",false);
+        $("#mapSelection").prop("disabled",false);
 
 
 
@@ -81,13 +86,16 @@ var Simulation = {
 
     start : function() {
 
-        $("#mapBlocker").addClass("turnedOn");
+        // $("#mapBlocker").addClass("turnedOn"); ///// DO WE WANT MAP VISIBLE WHILE SIM IS STOPPED?
 
     	this.frame = 0;
         var multiplier = $("#myRange").val();
-        this.interval = setInterval(updateSimulation, 200/multiplier); // screen refresh time in milliseconds
+        this.interval = setInterval(updateSimulation, 400/multiplier); // screen refresh time in milliseconds
         $('#playButton').prop("disabled", true);
         $("#stopButton").prop("disabled", false);
+        $("#restartButton").prop("disabled",false);
+        $("#simSelection").prop("disabled",true);
+        $("#mapSelection").prop("disabled",true);
 
 
         // this.showMap();
@@ -149,7 +157,7 @@ var Simulation = {
     stop : function() {
 
 
-    	$("#mapBlocker").removeClass("turnedOn");
+    	// $("#mapBlocker").removeClass("turnedOn");  ///// DO WE WANT MAP VISIBLE WHILE SIM IS STOPPED?
 
         this.seconds = 0;
         this.minutes = 0;
@@ -171,7 +179,11 @@ var Simulation = {
     	$('#playButton').prop("disabled", false).removeClass('disabledButton'); // enable play button
         this.running = false;
         $("#stopButton").prop("disabled", true);
+        $("#restartButton").prop("disabled",true);
+        $("#simSelection").prop("disabled",false);
+        $("#mapSelection").prop("disabled",false);
 
+        angular.element($('body')).scope().selectedFlight = '';
         flights = [];
         flightsComing = [];
         angular.element($('body')).scope().populateList();
@@ -515,7 +527,7 @@ document.getElementById("shadowOverlay").addEventListener('mouseup', function(e)
             // console.log('hit' + flight.ID);
             selectClickedFlight(flight);
         }else{
-            console.log('miss');
+            // console.log('miss');
             // selectClickedFlight('');
 
         }
@@ -538,7 +550,7 @@ function selectClickedFlight(flight){
             
         });
     flightsComing.forEach(function(f){
-        console.log(f);
+        // console.log(f);
         f.selected = false;
         $(".highlight").removeClass("highlight");
     })
@@ -564,7 +576,7 @@ function getMouse(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     // rect.width += 10;       ///this got all fucked up
     // rect.height +=10;
-    console.log(rect);
+    // console.log(rect);
     return {
       x: evt.clientX - rect.left,
       y: evt.clientY - rect.top
@@ -731,7 +743,6 @@ function loadSim(){
                     }
 
 
-                    console.log("pause");
                     // Sorts Flights Loaded display in order of appearance
 
                     flightsComing.sort((a, b) => {
@@ -925,12 +936,66 @@ function initMap() {
   // map.setOptions({disableDefaultUI:true});
 }
 
+var selects = document.querySelectorAll("mapChoice").forEach(item=>{
+    item.addEventListener("click",event => {
+        if (Simulation.running){
+            console.log("FIRED");
+            // var confirmed = confirm("Changing maps with stop current simulation.\n Continue?");
+            // if (confirmed){
+            //     Simulation.stop();
+            // }
+
+        }
+        console.log("FIRED");
+    })
+});
+console.log(selects);
+// .addEventListener('mousedown', function(e) {
+
+//     if (Simulation.running){
+//         var confirmed = confirm("Changing maps with stop current simulation.\n Continue?");
+//         if (confirmed){
+//             Simulation.stop();
+//         }
+
+//     }
+// });
+
 
 function changeMap(obj){
+    console.log(obj);
     var coordinates = $.parseJSON(obj);
-    // console.log(T);
-    
-    map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
+    // Simulation.hideMap();
+    $("#mapBlocker").removeClass("turnedOn");
+    Simulation.stop();
+    setTimeout(function(){
+        Simulation.stop();
+        angular.element($('body')).scope().currentMap = obj.IATAcode;
+        angular.element($('body')).scope().$apply();
+        map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
+    }, 300);
+    setTimeout(function(){
+        $("#mapBlocker").addClass("turnedOn");
+    }, 700);
+
+
+    ////// confirm box to stop sim
+    // if (Simulation.running){
+    //     // var confirmed = confirm("Changing maps with stop current simulation.\n Continue?");
+    //     if (true){
+    //         Simulation.stop();
+    //         angular.element($('body')).scope().currentMap = obj.IATAcode;
+    //         angular.element($('body')).scope().$apply();
+    //         map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
+    //     } else {
+    //         $('#mapSelection').val(angular.element($("mapSelection").val()));
+    //     }
+    // } else {
+    //     angular.element($('#mapSelection')).scope().val = obj.IATAcode;
+
+        
+    //     map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
+    // }
 
 }
 
@@ -955,10 +1020,6 @@ app.controller("SimFastController", function($scope,$timeout) {
     $scope.selectedFlight = selectedFlight;
 
     $scope.populateList = function(){
-        console.log(flightsComing);
-        // flightsComing.sort((a, b) => (a.spawnTimeMinutes > b.spawnTimeMinutes) ? 1 : (a.spawnTimeMinutes === b.spawnTimeMinutes) ? ((a.spawnTimeSeconds > b.spawnTimeSeconds) ? 1 : -1) : -1 );
-        console.log(flightsComing);
-
 
 
         $scope.flightList = flightsComing;
@@ -967,9 +1028,7 @@ app.controller("SimFastController", function($scope,$timeout) {
     };
 
     $scope.changeSim = function(str){
-        console.log(flightListJSON);
         flightListJSON = All_Flight_Sims[str];
-        console.log(flightListJSON);
 
         // console.log(flightListJSON);
         
@@ -984,38 +1043,36 @@ app.controller("SimFastController", function($scope,$timeout) {
             }
     }
 
-    $scope.changeMap = function(x,y,name){
+    // $scope.changeMap = function(x,y,name){
         
 
-        $timeout(function() {
-            if(Simulation.running){
-                // console.log(x);
-                var resp = confirm("this will end your Sim");
-                if (resp) {
-                    Simulation.stop();
-                    console.log('FHEFE');
-                    var point = {
-                        lat:x,
-                        lng:y
-                    }
-                    map.setCenter({lat: x, lng: y});
-                    $scope.currentMap = name;
-                }
-            }
-            else{
-                console.log('FHEFE');
-                var point = {
-                    lat:x,
-                    lng:y
-                }
-                map.setCenter({lat: x, lng: y});
-                $scope.currentMap = name;
-            }
-        });
+    //     $timeout(function() {
+    //         if(Simulation.running){
+    //             // console.log(x);
+    //             var resp = confirm("this will end your Sim");
+    //             if (resp) {
+    //                 Simulation.stop();
+    //                 var point = {
+    //                     lat:x,
+    //                     lng:y
+    //                 }
+    //                 map.setCenter({lat: x, lng: y});
+    //                 $scope.currentMap = name;
+    //             }
+    //         }
+    //         else{
+    //             var point = {
+    //                 lat:x,
+    //                 lng:y
+    //             }
+    //             map.setCenter({lat: x, lng: y});
+    //             $scope.currentMap = name;
+    //         }
+    //     });
         
-        // console.log("firedchangemap");
+    //     // console.log("firedchangemap");
     
-    }
+    // }
     
     
 
@@ -1042,7 +1099,6 @@ app.controller("SimFastController", function($scope,$timeout) {
         var strArray = input.slice(2);
             // console.log(strArray);
             for (var i = 0; i <= strArray.length; i++) {
-                console.log("doop");
                 if (strArray.charAt(i) == "V"){
                     i++;
                     var cmd = '';
@@ -1052,7 +1108,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                         i++;
                     }
                     targetFlight.targetSpeed = parseInt(cmd)/100;
-                    console.log("V",cmd);
+                    // console.log("V",cmd);
                 }
 
                 if (strArray.charAt(i) == "A"){
@@ -1064,7 +1120,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                         i++;
                     }
                     targetFlight.targetAltitude = parseInt(cmd);
-                    console.log("A",cmd);
+                    // console.log("A",cmd);
                 }
 
                 if (strArray.charAt(i) == "H"){
@@ -1079,7 +1135,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                     cmd = cmd%360;
 
                     targetFlight.targetDirection = cmd;
-                    console.log("H",cmd);
+                    // console.log("H",cmd);
                 }
                 if (strArray.charAt(i) == "V"){
                     i++;
@@ -1090,7 +1146,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                         i++;
                     }
                     targetFlight.targetSpeed = parseInt(cmd);
-                    console.log("V",cmd);
+                    // console.log("V",cmd);
                 }
                 
             }
@@ -1099,8 +1155,6 @@ app.controller("SimFastController", function($scope,$timeout) {
     }
 
     $scope.sendCommand = function() {
-        console.log($scope.input1);
-
         var input = $scope.input1
 
         /// parse string into sections
@@ -1154,7 +1208,7 @@ app.controller("SimFastController", function($scope,$timeout) {
         var flightObjList = highlight.parentNode;
 
         for(var i=0; i< flightObjList.childNodes.length; i++){
-            console.log(flightObjList.childNodes[i]);
+            // console.log(flightObjList.childNodes[i]);
 
             // flightObjList.childNodes[i].classList.add("FICL");
             try{
@@ -1166,7 +1220,6 @@ app.controller("SimFastController", function($scope,$timeout) {
             }
             // row.style.backgroundColor = "yellow";
         }
-        console.log(flightObjList);
 
 
         highlight.classList.add("highlight");
@@ -1192,4 +1245,50 @@ app.controller("SimFastController", function($scope,$timeout) {
 });
 
 
+var oldVal = $("#mapSelection").val();
+$("#mapSelection").change(function() {
+    console.log(oldVal);
+  var newVal = $(this).val();
+  if(Simulation.running){
+      if (!confirm("Changing maps will stop the simulation.\n Continue?")) {
+        $(this).val(oldVal); //set back
+        return;                  //abort!
+      }
+  }
+  //destroy branches
+  oldVal = newVal;       //store new value for next time
+  changeMap(newVal);
+});
+
+
+// var oldVal2 = $("#simSelection").text();
+// console.log(oldVal2);
+// $("#simSelection").change(function() {
+//     // console.log(oldVal2);
+//   var newVal = $(this).text();
+//   console.log(newVal);
+//   if(Simulation.running){
+//       if (!confirm("Changing simulation will stop the current simulation.\n Continue?")) {
+//         $(this).val(oldVal2); //set back
+//         console.log(oldVal2);
+//         return;                  //abort!
+//       }
+//   }
+//   //destroy branches
+//   oldVal = newVal;       //store new value for next time
+//   changeMap(newVal);
+// });
+
+
+let elementsArray = document.querySelectorAll(".selectionBlocker");
+
+elementsArray.forEach(function(elem) {
+    elem.addEventListener("click", function() {
+        //this function does stuff
+        var resp = confirm("Sim settings cannot be changed whil sim is running.\n Stop sim?");
+        if (resp){
+            Simulation.stop();
+        }
+    });
+});
 
