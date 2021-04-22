@@ -1097,8 +1097,8 @@ app.controller("SimFastController", function($scope,$timeout) {
         });
 
         var strArray = input.slice(2);
-            // console.log(strArray);
-            for (var i = 0; i <= strArray.length; i++) {
+            console.log(strArray);
+            for (var i = 0; i <= strArray.length; i) {  // i is incremented in 
                 if (strArray.charAt(i) == "V"){
                     i++;
                     var cmd = '';
@@ -1108,10 +1108,10 @@ app.controller("SimFastController", function($scope,$timeout) {
                         i++;
                     }
                     targetFlight.targetSpeed = parseInt(cmd)/100;
-                    // console.log("V",cmd);
+                    console.log("V",cmd);
                 }
 
-                if (strArray.charAt(i) == "A"){
+                else if (strArray.charAt(i) == "A"){
                     i++;
                     var cmd = '';
                     while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
@@ -1120,10 +1120,11 @@ app.controller("SimFastController", function($scope,$timeout) {
                         i++;
                     }
                     targetFlight.targetAltitude = parseInt(cmd);
-                    // console.log("A",cmd);
+                    console.log("A",cmd);
                 }
 
-                if (strArray.charAt(i) == "H"){
+                else if (strArray.charAt(i) == "H"){
+                    console.log("Hfired");
                     i++;
                     var cmd = '';
                     while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
@@ -1135,20 +1136,20 @@ app.controller("SimFastController", function($scope,$timeout) {
                     cmd = cmd%360;
 
                     targetFlight.targetDirection = cmd;
-                    // console.log("H",cmd);
-                }
-                if (strArray.charAt(i) == "V"){
-                    i++;
-                    var cmd = '';
-                    while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
-                        // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
-                        cmd+= strArray.charAt(i);
-                        i++;
-                    }
-                    targetFlight.targetSpeed = parseInt(cmd);
-                    // console.log("V",cmd);
-                }
-                
+                    console.log("H",cmd);
+                } else {i++;}
+                // if (strArray.charAt(i) == "V"){
+                //     i++;
+                //     var cmd = '';
+                //     while ((i<=strArray.length)&&(!isNaN(strArray.charAt(i)))){
+                //         // console.log(strArray.charAt(i), parseInt(strArray.charAt(i)));
+                //         cmd+= strArray.charAt(i);
+                //         i++;
+                //     }
+                //     targetFlight.targetSpeed = parseInt(cmd);
+                //     console.log("V",cmd);
+                // }
+                // console.log(i);
             }
             $scope.input1 = '';
 

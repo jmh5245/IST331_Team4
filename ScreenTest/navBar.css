@@ -107,7 +107,7 @@
 
 .custom-select{
   z-index: 6;
-
+  box-sizing: content-box;
   position: relative;
   font-family: Arial;
   font-size: 20px;
@@ -125,6 +125,7 @@
 }
 .custom-select:disabled{
   z-index: 4;
+  /*border-style: none;*/
   /*color:rgba(100,100,100,.5);*/
 }
 
