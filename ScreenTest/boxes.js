@@ -25,6 +25,22 @@ output.innerHTML = slider.value; // Display the default slider value
 
 var selectedFlight = '';
 
+
+
+function getData() {
+        console.log("WORKED");
+  
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+      }
+    };
+    xmlhttp.open("GET","queryScript.php?q=",true);
+    xmlhttp.send();
+  
+}
+
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
     output.innerHTML = slider.value;
@@ -85,12 +101,13 @@ var Simulation = {
     },
 
     start : function() {
+        loadSim();
 
         // $("#mapBlocker").addClass("turnedOn"); ///// DO WE WANT MAP VISIBLE WHILE SIM IS STOPPED?
 
     	this.frame = 0;
         var multiplier = $("#myRange").val();
-        this.interval = setInterval(updateSimulation, 400/multiplier); // screen refresh time in milliseconds
+        this.interval = setInterval(updateSimulation, 100/multiplier); // screen refresh time in milliseconds
         $('#playButton').prop("disabled", true);
         $("#stopButton").prop("disabled", false);
         $("#restartButton").prop("disabled",false);
@@ -108,8 +125,8 @@ var Simulation = {
         //toggle of altitude/speed displays - affected by framerate
 
 
-    	this.frame += 1;
-        if (this.frame%10 ==0){
+    	this.frame += 2;
+        if (this.frame%30 ==0){
             this.seconds += 1;
         }
         if (this.seconds == 60){
@@ -123,6 +140,7 @@ var Simulation = {
 
 
         var milsec = this.frame;
+        milsec = milsec;
         milsec = milsec.toString();
         while (milsec.length < 2) milsec = "0" + milsec;
 
@@ -254,6 +272,14 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             this.trail.shift();
         }
 
+        
+
+        this.direction = this.direction%360;
+        this.targetDirection =this.targetDirection%360;
+        
+        if (this.direction < 0){
+            this.direction = 360 + this.direction;
+        }
         //WORKING
         ////////////////////////////////////////////////////////////
         // pushing actual values toward target values
@@ -288,11 +314,19 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     this.seekDirection = function(){
         // turns in dumb ways - doesnt account for 360 = 0
         /////// DECIDE WHICH WAY TO TURN
+        var i = 1;
 
-        if (this.direction < this.targetDirection){
-            this.direction += 1;
-        } else if (this.direction> this.targetDirection) {
-            this.direction -= 1;
+        if (this.direction < this.targetDirection) {
+            if ( ( (360-this.targetDirection)+this.direction ) < (this.targetDirection-this.direction)){
+                i = -1;
+            }
+            this.direction += i;
+        } else if (this.direction > this.targetDirection) {
+
+            if ( ( (360-this.direction)+this.targetDirection ) < 180){
+                i = -1;
+            }
+            this.direction -= i;
         }
     }
     this.seekSpeed = function(){
@@ -344,16 +378,18 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
             ctx.fillStyle = '#5E4380';
             if (this.selected){
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = 'yellow';
-                ctx.stroke()
+                if(angular.element($('body')).scope().highlightSelected==true){
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'yellow';
+                    ctx.stroke()
+                }
             }
             ctx.fill();
             
             ctx.lineWidth = 5;
 
 
-            var xOffset=10;
+            var xOffset=15;
             var yOffset =30;
             var yOffsetLow = 18;
             var lineAngle =30;
@@ -412,7 +448,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
 
             ctx.fillStyle = "white";
     		
-            ctx.fillText(this.ID, this.x + xOffset , this.y-yOffset); // coordinate offset from marker
+            ctx.fillText("\u2022 "+this.ID, this.x + xOffset , this.y-yOffset); // coordinate offset from marker
     		
 
      		ctx.fillText(this.data, this.x + xOffset , this.y-yOffsetLow);
@@ -599,7 +635,7 @@ function changeDirection(){
 	var input = $("#input1").val();
 	var targetFlight;
 	flights.forEach(function(flight) {
-    	if(input.substr(0,2) == flight.ID.substr(7,9)){
+    	if(input.substr(0,2) == flight.ID.substr(-2)){
     		targetFlight = flight;
     		targetFlight.targetDirection = parseFloat(input.substr(2,input.length-1));
     	}
@@ -610,7 +646,7 @@ function changeSpeed(){
 	var input = $("#input1").val();
 	var targetFlight;
 	flights.forEach(function(flight) {
-    	if(input.substr(0,2) == flight.ID.substr(7,9)){
+    	if(input.substr(0,2) == flight.ID.substr(-2)){
     		targetFlight = flight;
     		targetFlight.targetSpeed = (parseFloat(input.substr(2,input.length-1)))/100;
     	}
@@ -622,7 +658,7 @@ function changeAlt(){
 	var input = $("#input1").val();
 	var targetFlight;
 	flights.forEach(function(flight) {
-    	if(input.substr(0,2) == flight.ID.substr(7,9)){
+    	if(input.substr(0,2) == flight.ID.substr(-2)){
     		targetFlight = flight;
     		targetFlight.targetAltitude = parseFloat(input.substr(2,input.length-1));
     	}
@@ -636,6 +672,11 @@ window.onkeydown = function(e) {
        var key = e.keyCode ? e.keyCode : e.which;
        // console.log(e.keyCode);
        
+       if (key == 13) {
+        e.preventDefault();
+        console.log("ENTER");
+        angular.element($('body')).scope().parseInput();
+       }
        
        if (key == 39) { // right arrow
             var v = Number.parseInt(slider.value) + 1;
@@ -668,7 +709,7 @@ window.onkeydown = function(e) {
         if (Simulation.running){
             Simulation.stop();
         } else{
-            loadSim();
+            Simulation.start();
             
         }
 
@@ -702,68 +743,47 @@ function loadPage(){
 
 function restartSim(){
     Simulation.stop();
-    loadSim(); 
+    Simulation.start(); 
 }
-function loadSim(){         
-        // loads json file to variable
-        // requires App.js to be running to use server 
-        //      to comply with https and CORS policy rules.
-        //      i do not understand.
-        // 
-            
-            // console.log($("#turningOnAnimation"))
-            flights = [];
-            var query = "http://localhost:3000/load?";
 
-            // var query = "test.json";////// FOR USE IN AWARDSPACE
-
-            // console.log("damnit" , $("#simSelection option:selected").text())
-            
-            $.ajax({  
-                url: query, 
-                crossDomain: true, 
-                dataType: 'json', 
-                type: 'GET'
-
-            })
-                
-                .done(function (json) { // if connection is made and json loaded
-                    All_Flight_Sims = json;
-                    flightListJSON = json[$("#simSelection").val()]; /// default Sim
+function loadSim(){
+    // All_Flight_Sims = json;
+    var flightListJSON = All_Flight_Sims[$("#simSelection").val()]; /// default Sim
                     // console.log(flightListJSON);
-                    flights = [];
-                    for (flight in flightListJSON){ // loading flight objects from json into array
+    flights = [];
+    console.log(flightListJSON);
+    for (flight in flightListJSON){ // loading flight objects from json into array
 
-                        var JSONobj = flightListJSON[flight]; 
-                        // -- gotta be cleaner ways of doing this
-                        var temp = new Flight(JSONobj);//.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
+        var JSONobj = flightListJSON[flight]; 
+        // -- gotta be cleaner ways of doing this
+        var temp = new Flight(JSONobj);//.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
                         
-                        flights.push(temp);
-                        flightsComing.push(temp);
-                    }
+        flights.push(temp);
+        flightsComing.push(temp);
+    }
 
 
                     // Sorts Flights Loaded display in order of appearance
 
-                    flightsComing.sort((a, b) => {
+    flightsComing.sort((a, b) => {
                         
 
-                        if (a.spawnTimeMin < b.spawnTimeMin) {
-                            return -1;
-                        } 
-                        if (a.spawnTimeMin === b.spawnTimeMin){
-                            if (a.spawnTimeSec < b.spawnTimeSec){
-                                return -1;
-                            }
-                            if (a.spawnTimeSec > b.spawnTimeSec){
-                                return 1;
-                            }
-                        }
-                        if (a.spawnTimeMin > b.spawnTimeMin) {
-                            return 1;
-                        }
-                        return 0;
-                    });
+        if (a.spawnTimeMin < b.spawnTimeMin) {
+            return -1;
+        } 
+        if (a.spawnTimeMin === b.spawnTimeMin){
+            if (a.spawnTimeSec < b.spawnTimeSec){
+                return -1;
+            }
+            if (a.spawnTimeSec > b.spawnTimeSec){
+                return 1;
+            }
+        }
+        if (a.spawnTimeMin > b.spawnTimeMin) {
+            return 1;
+        }
+        return 0;
+    });
                     // console.log("pause");
                     //hard coded flights
                     // flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
@@ -773,27 +793,98 @@ function loadSim(){
 
                     // flights[0].spawnFlight();
 
-                    angular.element($('body')).scope().populateList(); ///// FILLING ANGULAR FLIGHT LIST
+    angular.element($('body')).scope().populateList();
+}
+// function loadSim(){         
+//         // loads json file to variable
+//         // requires App.js to be running to use server 
+//         //      to comply with https and CORS policy rules.
+//         //      i do not understand.
+//         // 
+            
+//             // console.log($("#turningOnAnimation"))
+//             flights = [];
+//             // var query = "http://localhost:3000/load?";
 
-                    Simulation.start();
+//             var query = "test.json";////// FOR USE IN AWARDSPACE
 
-                })
+//             // console.log("damnit" , $("#simSelection option:selected").text())
+            
+//             $.ajax({  
+//                 url: query, 
+//                 crossDomain: true, 
+//                 dataType: 'json', 
+//                 type: 'GET'
 
-                .fail(function () { // if connection is not made
+//             })
+                
+//                 .done(function (json) { // if connection is made and json loaded
+//                     All_Flight_Sims = json;
+//                     flightListJSON = json[$("#simSelection").val()]; /// default Sim
+//                     // console.log(flightListJSON);
+//                     flights = [];
+//                     for (flight in flightListJSON){ // loading flight objects from json into array
+
+//                         var JSONobj = flightListJSON[flight]; 
+//                         // -- gotta be cleaner ways of doing this
+//                         var temp = new Flight(JSONobj);//.color, parseFloat(JSONobj.x), parseFloat(JSONobj.y), parseFloat(JSONobj.direction), parseFloat(JSONobj.speed), JSONobj.ID, parseFloat(JSONobj.altitude));
+                        
+//                         flights.push(temp);
+//                         flightsComing.push(temp);
+//                     }
+
+
+//                     // Sorts Flights Loaded display in order of appearance
+
+//                     flightsComing.sort((a, b) => {
+                        
+
+//                         if (a.spawnTimeMin < b.spawnTimeMin) {
+//                             return -1;
+//                         } 
+//                         if (a.spawnTimeMin === b.spawnTimeMin){
+//                             if (a.spawnTimeSec < b.spawnTimeSec){
+//                                 return -1;
+//                             }
+//                             if (a.spawnTimeSec > b.spawnTimeSec){
+//                                 return 1;
+//                             }
+//                         }
+//                         if (a.spawnTimeMin > b.spawnTimeMin) {
+//                             return 1;
+//                         }
+//                         return 0;
+//                     });
+//                     // console.log("pause");
+//                     //hard coded flights
+//                     // flight01 = new Flight("magenta", 800, 800,23, .3,      "N799298LL", 945); 
+//                     // flight02 = new Flight("teal", 120, 120,135, .3,      "SA77383YY", 945);   
+//                     // flights.push(flight01);
+//                     // flights.push(flight02);
+
+//                     // flights[0].spawnFlight();
+
+//                     angular.element($('body')).scope().populateList(); ///// FILLING ANGULAR FLIGHT LIST
+
+//                     Simulation.start();
+
+//                 })
+
+//                 .fail(function () { // if connection is not made
                     
-                    //force hard coded flights in case loading is an issue
-                    flight01 = new Flight("red", 800, 800,23, .3,      "N799298AA", 945); 
-                    flight02 = new Flight("red", 120, 120,135, .3,      "SA77383BB", 945);   
-                    flights.push(flight01);
-                    flights.push(flight02);
+//                     //force hard coded flights in case loading is an issue
+//                     flight01 = new Flight("red", 800, 800,23, .3,      "N799298AA", 945); 
+//                     flight02 = new Flight("red", 120, 120,135, .3,      "SA77383BB", 945);   
+//                     flights.push(flight01);
+//                     flights.push(flight02);
 
 
-                    Simulation.start();     
+//                     Simulation.start();     
 
-                }); 
+//                 }); 
 
 
-        }
+// }
 
 
 
@@ -963,7 +1054,7 @@ console.log(selects);
 
 
 function changeMap(obj){
-    console.log(obj);
+    
     var coordinates = $.parseJSON(obj);
     // Simulation.hideMap();
     $("#mapBlocker").removeClass("turnedOn");
@@ -1086,11 +1177,12 @@ app.controller("SimFastController", function($scope,$timeout) {
 
     $scope.parseInput = function(){
 
-        var input = $("#input1").val();
+        var input = $("#input1").val().toUpperCase();
+
         $scope.selectFlight(input);
         var targetFlight;
         flights.forEach(function(flight) {
-            if(input.substr(0,2) == flight.ID.substr(7,9)){
+            if(input.substr(0,2) == flight.ID.substr(-2)){
                 targetFlight = flight;
                 $scope.selectedFlight = flight;
             }
@@ -1107,7 +1199,7 @@ app.controller("SimFastController", function($scope,$timeout) {
                         cmd+= strArray.charAt(i);
                         i++;
                     }
-                    targetFlight.targetSpeed = parseInt(cmd)/100;
+                    targetFlight.targetSpeed = parseInt(cmd)/1000;
                     console.log("V",cmd);
                 }
 
@@ -1151,7 +1243,12 @@ app.controller("SimFastController", function($scope,$timeout) {
                 // }
                 // console.log(i);
             }
-            $scope.input1 = '';
+            $timeout(function(){
+                $scope.input1 = '';
+                $scope.$apply();
+            })
+            //$scope.input1 = '';
+            //$scope.$apply();
 
     }
 
@@ -1186,7 +1283,7 @@ app.controller("SimFastController", function($scope,$timeout) {
         var targetFlight;
         flights.forEach(function(flight) {
             flight.selected=false;
-            if(input.substr(0,2) == flight.ID.substr(7,9)){
+            if(input.substr(0,2) == flight.ID.substr(-2)){
                 $scope.selectedFlight = flight;
                 selectedFlight = flight;
                 selectedFlight.selected = true;
@@ -1231,7 +1328,7 @@ app.controller("SimFastController", function($scope,$timeout) {
             flight.selected=false;
             // console.log(input);
             // $scope.input1 = input;
-            if(input.substr(7,9) == flight.ID.substr(7,9)){
+            if(input.substr(-2) == flight.ID.substr(-2)){
                 // console.log(input);
                 $scope.selectedFlight = flight;
                 selectedFlight = flight;
@@ -1292,4 +1389,8 @@ elementsArray.forEach(function(elem) {
         }
     });
 });
+
+
+
+
 

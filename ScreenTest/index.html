@@ -68,6 +68,11 @@
 
 	    	</select>
 	    	</div>
+	    	<div id="highlightCheckbox">
+	    	<input type="checkbox"
+       				ng-model="highlightSelected"
+       				ng-value="false"><label>Highlights</label>
+   			</div>
 
 
 	    	<!-- <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a> -->
@@ -82,7 +87,7 @@
 
 	    		<div id="timeControls">
 	    			<section id="simControlsContainer">
-	    				<button id='playButton' class="timeControlButton" onclick="loadSim()"><span class="">&#9654;</span></button>
+	    				<button id='playButton' class="timeControlButton" onclick="Simulation.start()"><span class="">&#9654;</span></button>
 	    				<button id='stopButton' class="timeControlButton" onclick="Simulation.stop()"><span class="">&#9724;</span></button>
 	    				<button id='restartButton' class="timeControlButton" onclick="restartSim()"><span class="">&#8634;</span></button>
 	    			</section>
