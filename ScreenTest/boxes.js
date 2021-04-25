@@ -717,7 +717,8 @@ window.onkeydown = function(e) {
 }
 
 function loadPage(){
-    var query = "http://localhost:3000/load?";
+    //var query = "http://localhost:3000/load?";
+    query = "test.json";
 
     $.ajax({  
                 url: query, 
