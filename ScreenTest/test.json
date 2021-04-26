@@ -222,6 +222,62 @@
 
             "spawnTimeSec": "05",
             "spawnTimeMin": "0"
+        },
+        {
+            "ID":"DEL129880",
+            "color":"red",
+
+            
+            "x":"445", 
+            "y":"360",
+
+
+            "unknownLetter":"D",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"267",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "06",
+            "spawnTimeMin": "0"
+
+
+
+        },
+        {
+            "ID":"UPS1298",
+            "color":"red",
+
+            
+            "x":"901", 
+            "y":"360",
+
+
+            "unknownLetter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"180",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"OOD",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "06",
+            "spawnTimeMin": "0"
+
+
+
         }
         
     ],
@@ -252,7 +308,93 @@
             "spawnTimeMin": "0"
         }
         
+    ],
+    "Sim 4" : [
+        {
+            "ID":"FED2345",
+            "color":"red",
+
+            
+            "x":"455", 
+            "y":"360",
+
+
+            "unknownLetter":"D",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"267",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"LAX",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "05",
+            "spawnTimeMin": "0"
+        },
+        {
+            "ID":"UPS2331",
+            "color":"red",
+
+            
+            "x":"-1", 
+            "y":"360",
+
+
+            "unknownLetter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"90",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"LAX",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "01",
+            "spawnTimeMin": "0"
+
+
+
+        },
+        {
+            "ID":"SWA1280",
+            "color":"red",
+
+            
+            "x":"455", 
+            "y":"360",
+
+
+            "unknownLetter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"180",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"ATL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "06",
+            "spawnTimeMin": "0"
+
+
+
+        }
+
+        
     ]
+
 
 }
 
