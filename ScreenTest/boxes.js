@@ -380,19 +380,21 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             ctx.save(); // saves context placement
 
             /// TRAIL DOTS///////////////////////// unneccesary
-            var transparency = 1;
-            this.trail.reverse();
-            for (var i =0; i<this.trail.length; i++){
-                // console.log(point);
-                                        //  vv radius
-                ctx.globalAlpha = transparency;
-                ctx.fillStyle = 'white';
-                ctx.fillRect(this.trail[i][0], this.trail[i][1], 2, 2);  // draws rectangle
-                transparency-=.1;
-                
+            if(angular.element($('body')).scope().highlightSelected==true){
+                var transparency = 1;
+                this.trail.reverse();
+                for (var i =0; i<this.trail.length; i++){
+                    // console.log(point);
+                                            //  vv radius
+                    ctx.globalAlpha = transparency;
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(this.trail[i][0], this.trail[i][1], 2, 2);  // draws rectangle
+                    transparency-=.1;
+                    
+                }
+                this.trail.reverse();
+                ctx.globalAlpha = 1;
             }
-            this.trail.reverse();
-            ctx.globalAlpha = 1;
 
 
 
