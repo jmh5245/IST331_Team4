@@ -92,6 +92,12 @@ body{
 #speedDisplayContainer{
 	min-width: 2em;
 	display:inline-block;
+	height:100%;
+	text-align: center;
+	font-size: 14px;
+	text-shadow: -.7px -.7px 1px white; 
+	padding:3px;
+	/*background-color: darkgray;*/
 }
 #simControlsContainer{
 	margin-right: auto;
@@ -182,6 +188,7 @@ canvas{
 #speedDisplay{
 	display: inline-block;
 	margin:0;
+	font-size: 18px;
 }
 
 table{

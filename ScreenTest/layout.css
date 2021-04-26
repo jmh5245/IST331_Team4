@@ -107,7 +107,7 @@
 	/*border-color: black;*/
 	border-width: 1px; 
 	/*background-color: white;*/
-	overflow: visible;
+	overflow: hidden;
 
 }
 .flightStripColBlock{

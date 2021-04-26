@@ -235,7 +235,7 @@ var Simulation = {
     changeSimSpeed : function() { //sets new interval for framerate
     	clearInterval(this.interval)
     	var multiplier = $("#myRange").val();
-    	this.interval = setInterval(updateSimulation,200/multiplier);
+    	this.interval = setInterval(updateSimulation,300/multiplier);
     }
 }
 
@@ -380,19 +380,21 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             ctx.save(); // saves context placement
 
             /// TRAIL DOTS///////////////////////// unneccesary
-            var transparency = 1;
-            this.trail.reverse();
-            for (var i =0; i<this.trail.length; i++){
-                // console.log(point);
-                                        //  vv radius
-                ctx.globalAlpha = transparency;
-                ctx.fillStyle = 'white';
-                ctx.fillRect(this.trail[i][0], this.trail[i][1], 2, 2);  // draws rectangle
-                transparency-=.1;
-                
+            if(angular.element($('body')).scope().highlightSelected==true){
+                var transparency = 1;
+                this.trail.reverse();
+                for (var i =0; i<this.trail.length; i++){
+                    // console.log(point);
+                                            //  vv radius
+                    ctx.globalAlpha = transparency;
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(this.trail[i][0], this.trail[i][1], 2, 2);  // draws rectangle
+                    transparency-=.1;
+                    
+                }
+                this.trail.reverse();
+                ctx.globalAlpha = 1;
             }
-            this.trail.reverse();
-            ctx.globalAlpha = 1;
 
 
 
@@ -452,11 +454,20 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
             ctx.font = flightDataFontSize;
     		ctx.fillStyle = "Black";
     		ctx.textAlign = "left";
+            let toggle2 = false;
+            if (Simulation.frame < 15){
+                toggle2 = true;
+            }
     		let data;
 
-            let alt = ("00000" + String(this.altitude.toFixed(0))).slice(-3)
+            let alt = ("00000" + String(this.altitude.toFixed(0))).slice(-3);
+            let speed = ("00000" + String((this.speed).toFixed(1))).slice(-3);
     		if (!this.toggler){
-    			this.data = alt +"    " + this.direction + " " + this.letter;
+                if (toggle2){
+                    this.data = alt +"  " +this.direction + " " + this.letter;
+                } else{
+    			 this.data = speed +"   "+this.direction + " " + this.letter;
+                }
     		} else {
     			this.data = this.destination + "  " + this.aircraftType;
     		}
@@ -1091,7 +1102,7 @@ function changeMap(obj){
         Simulation.stop();
         angular.element($('body')).scope().currentMap = obj.IATAcode;
         angular.element($('body')).scope().$apply();
-        map.setCenter({lat: coordinates["longitude"], lng: coordinates["latitude"]});
+        map.setCenter({lat: coordinates["latitude"], lng: coordinates["longitude"]});
     }, 300);
     setTimeout(function(){
         $("#mapBlocker").addClass("turnedOn");
@@ -1325,7 +1336,7 @@ app.controller("SimFastController", function($scope,$timeout) {
     }
     $scope.selectFlightFromList = function($event){
         // console.log("FIRED HERE");
-        var input = $event.currentTarget.children[2].innerHTML;
+        var input = $event.currentTarget.children[5].innerHTML;
         // console.log("CLICKED",$event.currentTarget.children[1]);
         // console.log($event.currentTarget.children[1].innerHTML);
         var targetFlight;

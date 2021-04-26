@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Display Window - 1</title>
+	<title>SimFast Team 4</title>
 	<link rel="stylesheet" type="text/css" href="window.css">
 	<link rel="stylesheet" type="text/css" href="layout.css">
 	<link rel="stylesheet" type="text/css" href="keyboard.css">
@@ -38,9 +38,14 @@
 	    	<div class="selectionBlocker">
 	    		</div>
 	    	<select id="mapSelection" class="custom-select" name = "selectMap">
-	    		<option class='mapChoice' value='{"longitude":39.8729,"latitude":-75.2437, "IATAcode":"PHL"}'>PHL</option>
-	    		<option class='mapChoice' value='{"longitude":33.9416,"latitude":-118.4085, "IATAcode":"LAX"}'>LAX</option>
-	    		<option class='mapChoice' value='{"longitude":33.6407,"latitude":-84.4277, "IATAcode":"ATL"}'>ATL</option>
+	    		<option class='mapChoice' value='{"latitude":39.8729,"longitude":-75.2437, "IATAcode":"PHL"}'>PHL</option>
+	    		<option class='mapChoice' value='{"latitude":33.9416,"longitude":-118.4085, "IATAcode":"LAX"}'>LAX</option>
+	    		<option class='mapChoice' value='{"latitude":33.6407,"longitude":-84.4277, "IATAcode":"ATL"}'>ATL</option>
+	    		<option class='mapChoice' value='{"latitude":39.849312,"longitude":-104.673828, "IATAcode":"DEN"}'>DEN</option>
+	    		<option class='mapChoice' value='{"latitude":25.7933,"longitude": -80.2906, "IATAcode":"MIA"}'>MIA</option>
+	    		<option class='mapChoice' value='{"latitude":32.897480,"longitude":-97.040443, "IATAcode":"DFW"}'>DFW</option>
+	    		<option class='mapChoice' value='{"latitude":40.641766,"longitude":-73.780968, "IATAcode":"JFK"}'>JFK</option>
+
 
 
 	    		
@@ -69,9 +74,10 @@
 	    	</select>
 	    	</div>
 	    	<div id="highlightCheckbox">
+	    		<label>Guides</label>
 	    	<input type="checkbox"
        				ng-model="highlightSelected"
-       				ng-value="false"><label>Highlights</label>
+       				ng-value="false">
    			</div>
 
 
@@ -101,7 +107,7 @@
 	    			</section>
 
 	    			<section id="timeSliderContainer">
-	    				<div id="speedDisplayContainer"><p id="speedDisplay">1</p><span>x</span></div>
+	    				<div id="speedDisplayContainer"><p>Speed:</p><p id="speedDisplay">1</p><span>x</span></div>
 	    				<input type="range" min="1" max="25" value="1" class="slider" id="myRange">
 
 	    			</section>
@@ -169,7 +175,7 @@
 						{{selectedFlight.departure}}
 					</div>
 					<div id="bigBox" class="flightStripColBlock">
-						{{selectedFlight.departure}} {{selectedFlight.beacons}} {{selectedFlight.destination}}
+						{{selectedFlight.departure}} {{selectedFlight.beacons}} <br> {{selectedFlight.destination}}
 					</div>
 					<div class="flightStripCol">
 						<div class="flightStripRow"></div>
@@ -199,7 +205,7 @@
 
 				<section id="keyboardContainer">
 					<div id= 'inputContainer'>
-						<input id="input1" class='displayScreen' type='text' ng-model='input1'></input>
+						<input autocomplete = "off" id="input1" class='displayScreen' type='text' ng-model='input1'></input>
 					</div>
 
 
