@@ -38,9 +38,13 @@
 	    	<div class="selectionBlocker">
 	    		</div>
 	    	<select id="mapSelection" class="custom-select" name = "selectMap">
-	    		<option class='mapChoice' value='{"longitude":39.8729,"latitude":-75.2437, "IATAcode":"PHL"}'>PHL</option>
-	    		<option class='mapChoice' value='{"longitude":33.9416,"latitude":-118.4085, "IATAcode":"LAX"}'>LAX</option>
-	    		<option class='mapChoice' value='{"longitude":33.6407,"latitude":-84.4277, "IATAcode":"ATL"}'>ATL</option>
+	    		<option class='mapChoice' value='{"latitude":39.8729,"longitude":-75.2437, "IATAcode":"PHL"}'>PHL</option>
+	    		<option class='mapChoice' value='{"latitude":33.9416,"longitude":-118.4085, "IATAcode":"LAX"}'>LAX</option>
+	    		<option class='mapChoice' value='{"latitude":33.6407,"longitude":-84.4277, "IATAcode":"ATL"}'>ATL</option>
+	    		<option class='mapChoice' value='{"latitude":39.849312,"longitude":-104.673828, "IATAcode":"DEN"}'>DEN</option>
+	    		<option class='mapChoice' value='{"latitude":25.7933,"longitude": -80.2906, "IATAcode":"MIA"}'>MIA</option>
+	    		<option class='mapChoice' value='{"latitude":32.897480,"longitude":-97.040443, "IATAcode":"DFW"}'>DFW</option>
+
 
 
 	    		
@@ -169,7 +173,7 @@
 						{{selectedFlight.departure}}
 					</div>
 					<div id="bigBox" class="flightStripColBlock">
-						{{selectedFlight.departure}} {{selectedFlight.beacons}} {{selectedFlight.destination}}
+						{{selectedFlight.departure}} {{selectedFlight.beacons}} <br> {{selectedFlight.destination}}
 					</div>
 					<div class="flightStripCol">
 						<div class="flightStripRow"></div>
