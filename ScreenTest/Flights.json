@@ -9,7 +9,7 @@
             "y":"375",
 
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -33,7 +33,7 @@
             "x":"-1",
             "y":"-1",
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"059",
@@ -57,7 +57,7 @@
             "x":"300",
             "y":"752",
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"100",
@@ -82,7 +82,7 @@
             "y":"360",
 
 
-            "unknownLetter":"D",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -103,10 +103,10 @@
         	"ID":"UPS2196",
         	"color":"black",
         	
-            "x":"952",
-            "y":"300",
+            "x":"445",
+            "y":"360",
 
-            "unknownLetter":"E",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"55",
@@ -130,7 +130,7 @@
             "x":"902",
             "y":"360",
 
-            "unknownLetter":"A",
+            "letter":"A",
             "unknownNumber":"053",
 
             "altitude":"55",
@@ -154,7 +154,7 @@
             "x":"800",
             "y":"-1",
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"55",
@@ -178,7 +178,7 @@
             "x":"455",
             "y":"360",
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"55",
@@ -199,7 +199,7 @@
     ],
     "Sim 2" : [
         {
-            "ID":"N799298LL",
+            "ID":"N799298",
             "color":"red",
 
             
@@ -207,7 +207,7 @@
             "y":"360",
 
 
-            "unknownLetter":"A",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -217,8 +217,9 @@
             "selected":"false",
 
             "departure":"PHL",
-            "destination":"PHL",
-            "aircraftType":"MD90",
+            "destination":"JFK",
+            "aircraftType":"B350",
+            "beacons":"NAV6 FIX4",
 
             "spawnTimeSec": "05",
             "spawnTimeMin": "0"
@@ -232,7 +233,7 @@
             "y":"360",
 
 
-            "unknownLetter":"D",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -243,9 +244,10 @@
 
             "departure":"PHL",
             "destination":"LAX",
-            "aircraftType":"MD90",
+            "aircraftType":"C25B",
+            "beacons":"NAV1 FIX2",
 
-            "spawnTimeSec": "06",
+            "spawnTimeSec": "46",
             "spawnTimeMin": "0"
 
 
@@ -260,30 +262,54 @@
             "y":"360",
 
 
-            "unknownLetter":"E",
+            "letter":"E",
             "unknownNumber":"053",
 
             "altitude":"090",
-            "direction":"180",
+            "direction":"2000",
             "speed":".3",
             "active":"true",
             "selected":"false",
 
             "departure":"OOD",
             "destination":"PHL",
-            "aircraftType":"MD90",
+            "aircraftType":"C25B",
+            "beacons":"NAV5 FIX4",
 
             "spawnTimeSec": "06",
             "spawnTimeMin": "0"
+        },
+        {
+            "ID":"N1200",
+            "color":"red",
+
+            
+            "x":"30", 
+            "y":"721",
 
 
+            "letter":"E",
+            "unknownNumber":"053",
 
+            "altitude":"090",
+            "direction":"20",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"OOD",
+            "destination":"JFK",
+            "aircraftType":"MD90",
+            "beacons":"NAV1 FIX5",
+
+            "spawnTimeSec": "30",
+            "spawnTimeMin": "0"
         }
         
     ],
     "Sim 3" : [
         {
-            "ID":"N799298LL",
+            "ID":"N79929",
             "color":"red",
 
             
@@ -291,7 +317,7 @@
             "y":"360",
 
 
-            "unknownLetter":"A",
+            "letter":"A",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -303,8 +329,61 @@
             "departure":"PHL",
             "destination":"PHL",
             "aircraftType":"MD90",
+            "beacons":"NAV3 FIX4",
 
             "spawnTimeSec": "05",
+            "spawnTimeMin": "0"
+        },
+        {
+            "ID":"VA45H3",
+            "color":"red",
+
+            
+            "x":"60", 
+            "y":"-1",
+
+
+            "letter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"120",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"PHL",
+            "aircraftType":"C25B",
+            "beacons":"NAV4 FIX1",
+
+            "spawnTimeSec": "35",
+            "spawnTimeMin": "0"
+        },
+        {
+            "ID":"UPS453",
+            "color":"red",
+
+            
+            "x":"902", 
+            "y":"700",
+
+
+            "letter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"288",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+            "beacons":"NAV1 FIX4",
+
+            "spawnTimeSec": "15",
             "spawnTimeMin": "0"
         }
         
@@ -315,11 +394,11 @@
             "color":"red",
 
             
-            "x":"455", 
+            "x":"445", 
             "y":"360",
 
 
-            "unknownLetter":"D",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -331,8 +410,9 @@
             "departure":"PHL",
             "destination":"LAX",
             "aircraftType":"MD90",
+            "beacons":"NAV1 FIX4",
 
-            "spawnTimeSec": "05",
+            "spawnTimeSec": "35",
             "spawnTimeMin": "0"
         },
         {
@@ -344,7 +424,7 @@
             "y":"360",
 
 
-            "unknownLetter":"E",
+            "letter":"A",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -356,8 +436,9 @@
             "departure":"LAX",
             "destination":"PHL",
             "aircraftType":"MD90",
+            "beacons":"NAV1 FIX4",
 
-            "spawnTimeSec": "01",
+            "spawnTimeSec": "10",
             "spawnTimeMin": "0"
 
 
@@ -372,7 +453,7 @@
             "y":"360",
 
 
-            "unknownLetter":"E",
+            "letter":"D",
             "unknownNumber":"053",
 
             "altitude":"090",
@@ -384,9 +465,39 @@
             "departure":"PHL",
             "destination":"ATL",
             "aircraftType":"MD90",
+            "beacons":"NAV1 FIX4",
 
             "spawnTimeSec": "06",
-            "spawnTimeMin": "0"
+            "spawnTimeMin": "1"
+
+
+
+        },
+        {
+            "ID":"N9998",
+            "color":"red",
+
+            
+            "x":"-1", 
+            "y":"-1",
+
+
+            "letter":"E",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"135",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"OOD",
+            "destination":"ATL",
+            "aircraftType":"B350",
+            "beacons":"NAV1 FIX4",
+
+            "spawnTimeSec": "06",
+            "spawnTimeMin": "1"
 
 
 
