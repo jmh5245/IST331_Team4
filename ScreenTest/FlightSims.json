@@ -1,0 +1,88 @@
+{
+    "flights" : [
+        {
+        	"ID":"N98416",
+        	"color":"red",
+
+        	
+            "x":"952",
+            "y":"375",
+
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"250",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"OOD",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+            "beacons":"NAV1 FIX4",
+
+            "spawnTimeSec": "5",
+            "spawnTimeMin": "0"
+        },  
+    ],
+    "moop" : [
+        {
+            "ID":"N799298LL",
+            "color":"red",
+
+            
+            "x":"455", 
+            "y":"360",
+
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"20",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "05",
+            "spawnTimeMin": "0"
+        }
+        
+    ],
+    "moop2" : [
+        {
+            "ID":"N799298LL",
+            "color":"red",
+
+            
+            "x":"455", 
+            "y":"360",
+
+
+            "unknownLetter":"A",
+            "unknownNumber":"053",
+
+            "altitude":"090",
+            "direction":"20",
+            "speed":".3",
+            "active":"true",
+            "selected":"false",
+
+            "departure":"PHL",
+            "destination":"PHL",
+            "aircraftType":"MD90",
+
+            "spawnTimeSec": "05",
+            "spawnTimeMin": "0"
+        }
+        
+    ]
+
+}
+

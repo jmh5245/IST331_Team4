@@ -88,6 +88,7 @@
 	    		<div id="timeControls">
 	    			<section id="simControlsContainer">
 	    				<button id='playButton' class="timeControlButton" onclick="Simulation.start()"><span class="">&#9654;</span></button>
+
 	    				<button id='stopButton' class="timeControlButton" onclick="Simulation.stop()"><span class="">&#9724;</span></button>
 	    				<button id='restartButton' class="timeControlButton" onclick="restartSim()"><span class="">&#8634;</span></button>
 	    			</section>
@@ -140,10 +141,11 @@
 						<tr class="flightListRow" ng-repeat='flight in flightList' ng-class="{'even':$even,'odd':$odd}" ng-click="selectFlightFromList($event)">
 							<td class="tableElement">{{("00"+flight.spawnTimeMin).slice(-2)}}:{{("00"+flight.spawnTimeSec).slice(-2)}}</td>
 							<td class="tableElement">{{flight.letter}}</td>
-							<td class="tableElement">{{flight.ID}}</td>
+							
 							<td class="tableElement">{{flight.aircraftType}}</td>
 							<td class="tableElement">{{flight.departure}}</td>
 							<td class="tableElement">{{flight.destination}}</td>
+							<td class="tableElement">{{flight.ID}}</td>
 
 						</tr>
 					</table>
@@ -167,7 +169,7 @@
 						{{selectedFlight.departure}}
 					</div>
 					<div id="bigBox" class="flightStripColBlock">
-						{{selectedFlight.departure}}  {{selectedFlight.destination}}
+						{{selectedFlight.departure}} {{selectedFlight.beacons}} {{selectedFlight.destination}}
 					</div>
 					<div class="flightStripCol">
 						<div class="flightStripRow"></div>
@@ -399,15 +401,15 @@
 						</button>
 
 						<button id="seven" ng-click="pushChar('7')" 
-						class='numberButton'><span>7</span>
+						class='numberButton'><span>7<br>&#8601;</span>
 						</button>
 
 						<button id="eight"ng-click="pushChar('8')" 
-						class='numberButton'><span>8</span>
+						class='numberButton'><span>8<br>&#8595;</span>
 						</button>
 
 						<button id="nine" ng-click="pushChar('9')" 
-						class='numberButton'><span>9<br></span>
+						class='numberButton'><span>9<br>&#8600;</span>
 						</button>
 
 						<button class='charButton'

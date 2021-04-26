@@ -116,6 +116,7 @@
 	border-right-style: solid;
 	border-color: black;
 	border-width: 1px; 
+	overflow-wrap: break-word;
 }
 .flightStripRow{
 	border-bottom-style: solid;

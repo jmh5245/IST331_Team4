@@ -55,6 +55,7 @@ slider.oninput = function() {
 
 
 var Simulation = {
+    paused:false,
 
     running:false,
     
@@ -100,6 +101,18 @@ var Simulation = {
         }, 1000)
     },
 
+    pause : function(){
+        if(this.paused){
+            this.paused = false;
+            $('#playButton > span').text("\u275A \u275A");
+
+        } else{
+            this.paused = true;
+            
+            $('#playButton > span').text("\u25B6");
+        }
+    },
+
     start : function() {
         loadSim();
 
@@ -108,7 +121,12 @@ var Simulation = {
     	this.frame = 0;
         var multiplier = $("#myRange").val();
         this.interval = setInterval(updateSimulation, 100/multiplier); // screen refresh time in milliseconds
-        $('#playButton').prop("disabled", true);
+        // $('#playButton').prop("disabled", true);
+
+        $('#playButton > span').text("\u275A \u275A");
+        $('#playButton').attr("onclick","Simulation.pause()");
+        
+        
         $("#stopButton").prop("disabled", false);
         $("#restartButton").prop("disabled",false);
         $("#simSelection").prop("disabled",true);
@@ -117,6 +135,7 @@ var Simulation = {
 
         // this.showMap();
         this.running = true;
+        this.paused = false;
         // flightsComing = flights;
         // ALL_FLIGHTS = flights;
     },
@@ -195,6 +214,10 @@ var Simulation = {
 
     	// console.log("stop clear fired")
     	$('#playButton').prop("disabled", false).removeClass('disabledButton'); // enable play button
+        $('#playButton').attr("onclick","Simulation.start()");
+        $('#playButton > span').text("\u25B6");
+        // $('#playButton').text("pause");
+        this.paused = false;
         this.running = false;
         $("#stopButton").prop("disabled", true);
         $("#restartButton").prop("disabled",true);
@@ -242,6 +265,7 @@ function Flight(json){//color, x, y, degrees, speed, ID, altitude,type) {
     
     this.destination = json.destination;
     this.departure = json.departure;
+    this.beacons = json.beacons;
     this.direction = parseFloat(json.direction);   // actual values
     this.speed = parseFloat(json.speed);        // pushed toward targets by seek___ functions
     this.altitude = parseFloat(json.altitude); ///
@@ -505,35 +529,36 @@ function drawGuides(){
 
 function updateSimulation() {
     // upates canvas by one frame
-	
-    Simulation.clear(); // delete everything
-    Simulation.click();// advancing frame count/ toggle animation
-    drawGuides();
-    flights.forEach(function(flight) {
+	if (!Simulation.paused){
+        Simulation.clear(); // delete everything
+        Simulation.click();// advancing frame count/ toggle animation
+        drawGuides();
+        flights.forEach(function(flight) {
 
 
-     
-        if (flight.active){
+         
+            if (flight.active){
 
-    	   flight.move() // calculate position
+        	   flight.move() // calculate position
 
-    	   flight.update() // draw flight to screen
-        }
-        else{
+        	   flight.update() // draw flight to screen
+            }
+            else{
 
-            // if (flight.minutes == Simulation.minutes){
-                // console.log("thisfar");
-                
-                if((flight.spawnTimeSec == Simulation.seconds)&&(flight.spawnTimeMin == Simulation.minutes)){
+                // if (flight.minutes == Simulation.minutes){
                     // console.log("thisfar");
                     
-                    flight.spawnFlight();
-                }
-            
-        }
+                    if((flight.spawnTimeSec == Simulation.seconds)&&(flight.spawnTimeMin == Simulation.minutes)){
+                        // console.log("thisfar");
+                        
+                        flight.spawnFlight();
+                    }
+                
+            }
 
 
-    });
+        });
+    }
 
     
      
@@ -679,6 +704,7 @@ window.onkeydown = function(e) {
        }
        
        if (key == 39) { // right arrow
+        e.preventDefault();
             var v = Number.parseInt(slider.value) + 1;
 
             // slider.value +=1;
@@ -689,9 +715,9 @@ window.onkeydown = function(e) {
             angular.element($('body')).scope().$apply()
             output.innerHTML = v;
             slider.value = v;
-            flights[0].spawnFlight();
 
        }else if (key == 37) { // left arrow
+        e.preventDefault();
            var v = Number.parseInt(slider.value) - 1;
 
             // slider.value +=1;
@@ -706,6 +732,7 @@ window.onkeydown = function(e) {
        }
 
     else if (key == 32){  //spacebar
+        e.preventDefault();
         if (Simulation.running){
             Simulation.stop();
         } else{
@@ -717,8 +744,8 @@ window.onkeydown = function(e) {
 }
 
 function loadPage(){
-    //var query = "http://localhost:3000/load?";
-    query = "test.json";
+    var query = "http://localhost:3000/load?";
+    // query = "test.json";
 
     $.ajax({  
                 url: query, 

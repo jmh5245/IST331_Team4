@@ -120,7 +120,7 @@
   height: 100%;
 }
 #seven:after {
-    content:"\02199";
+    content:"";
   display: block;
   position: absolute;
   top: 60%;
@@ -129,7 +129,7 @@
   height: 100%;
 }
 #eight:after {
-    content:"\02193";
+    content:"";
   display: block;
   position: absolute;
   top: 60%;
@@ -138,7 +138,8 @@
   height: 100%;
 }
 #nine:after {
-    content:"\02198";
+    /*content:"\02198";*/
+    content:'';
   display: block;
   position: absolute;
   top: 60%;
