@@ -42,7 +42,7 @@
             "active":"false",
             "selected":"false",
 
-            "departure":"PHL",
+            "departure":"MIA",
             "destination":"CYN",
             "aircraftType":"BE20",
             "beacons":"NAV3 FIX2",
